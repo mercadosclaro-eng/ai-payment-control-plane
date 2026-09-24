@@ -1,0 +1,32 @@
+# AI Payment Control Plane
+
+> Pre-sign authorization infrastructure for AI-agent payments. The service evaluates a proposed payment before an external wallet or processor signs it.
+
+## What it does
+
+- Accepts a structured payment intent through `POST /check`.
+- Returns `ALLOW`, `BLOCK`, or `REQUIRE_APPROVAL` with stable reason codes and an audit receipt.
+- Applies owner policy, budgets, duplicate checks, payee controls, velocity checks, price anomaly signals, and prompt-to-payment risk signals.
+- Supports HTTPS and an MCP tool interface.
+
+## Public interfaces
+
+- Product page: https://mercadosclaro-eng.github.io/ai-payment-control-plane/
+- Integration guide: https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html
+- OpenAPI document: https://payguard-production-abfe.up.railway.app/openapi.json
+- Health endpoint: https://payguard-production-abfe.up.railway.app/health
+- MCP Registry: https://registry.modelcontextprotocol.io/?q=payguard
+- Pilot request: https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml
+
+## Boundaries
+
+- The service does not hold funds or private keys.
+- The service does not sign, transmit, or settle payments.
+- A wallet, processor, or other external signer remains responsible for execution.
+- The public product name PayGuard is a working name.
+- No guaranteed fraud prevention or regulatory certification is claimed.
+
+## Integration rule
+
+Call `/check` immediately before signing. Continue only when the returned decision is `ALLOW`; stop or request owner approval for every other result. Verify the current request and receipt again at the signer boundary.
+

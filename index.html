@@ -11,6 +11,8 @@
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307110f'/%3E%3Cpath d='M17 32h30M32 17v30' stroke='%2359f2b4' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='21' fill='none' stroke='%2359f2b4' stroke-width='3'/%3E%3C/svg%3E">
   <link rel="canonical" href="https://mercadosclaro-eng.github.io/ai-payment-control-plane/">
+  <link rel="alternate" type="text/plain" href="llms.txt" title="Machine-readable product summary">
+  <link rel="alternate" type="application/json" href="integration.json" title="Machine-readable integration profile">
   <meta property="og:url" content="https://mercadosclaro-eng.github.io/ai-payment-control-plane/">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Payment Control Plane","alternateName":"PayGuard (working name)","applicationCategory":"SecurityApplication","operatingSystem":"Cloud API","description":"Pre-sign authorization and policy control for AI agent payments.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Limited developer quota"}}</script>
@@ -36,7 +38,7 @@
         <h1>Let AI agents spend.<br><em>Keep authority.</em></h1>
         <p class="lead">An independent control plane that evaluates every payment intent before anything is signed. Deterministic policy, risk scoring and auditable decisions—with no custody of funds or keys.</p>
         <div class="actions">
-          <a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">Inspect the live API <span>↗</span></a>
+          <a class="button primary" href="integration.html">Read the integration guide <span>↗</span></a>
           <a class="button secondary" href="#demo">Run the decision demo</a>
         </div>
         <p class="working-name">Operational MVP currently uses the working name <strong>PayGuard</strong>.</p>
@@ -170,7 +172,7 @@ wallet.sign(payment_intent, decision.receipt)</code></pre></div>
 
   <footer class="shell">
     <div><strong>AI Payment Control Plane</strong><p>Pre-sign authorization infrastructure for autonomous commerce.</p></div>
-    <div class="footer-links"><a href="https://payguard-production-abfe.up.railway.app/openapi.json">API</a><a href="https://registry.modelcontextprotocol.io/?q=payguard">MCP Registry</a><a href="https://github.com/google-agentic-commerce/a2a-x402/discussions/181">Technical discussion</a></div>
+    <div class="footer-links"><a href="integration.html">Integration</a><a href="https://payguard-production-abfe.up.railway.app/openapi.json">API</a><a href="https://registry.modelcontextprotocol.io/?q=payguard">MCP Registry</a><a href="llms.txt">LLM summary</a></div>
     <p class="legal">PayGuard is a working product name. The service evaluates payment intent; it does not custody, sign, transmit or settle funds. No claim of guaranteed fraud prevention or regulatory certification.</p>
   </footer>
   <script src="app.js"></script>

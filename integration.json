@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "name": "AI Payment Control Plane",
+  "working_product_name": "PayGuard",
+  "category": "pre-sign payment authorization",
+  "description": "Evaluates AI-agent payment intents before an external signer moves funds.",
+  "decision_contract": ["ALLOW", "BLOCK", "REQUIRE_APPROVAL"],
+  "interfaces": {
+    "openapi": "https://payguard-production-abfe.up.railway.app/openapi.json",
+    "health": "https://payguard-production-abfe.up.railway.app/health",
+    "check": "https://payguard-production-abfe.up.railway.app/check",
+    "registration": "https://payguard-production-abfe.up.railway.app/register",
+    "mcp_registry": "https://registry.modelcontextprotocol.io/?q=payguard"
+  },
+  "integration": {
+    "position": "immediately before external signing",
+    "fail_closed": true,
+    "continue_only_on": "ALLOW"
+  },
+  "boundaries": {
+    "custodies_funds": false,
+    "stores_private_keys": false,
+    "signs_payments": false,
+    "transmits_payments": false,
+    "settles_payments": false
+  },
+  "documentation": "https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html",
+  "pilot_request": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml"
+}
+

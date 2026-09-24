@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Integration guide — AI Payment Control Plane</title>
+  <meta name="description" content="Connect an AI agent to a pre-sign payment authorization decision through HTTPS or MCP.">
+  <link rel="canonical" href="https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html">
+  <link rel="alternate" type="text/plain" href="llms.txt" title="Machine-readable product summary">
+  <link rel="alternate" type="application/json" href="integration.json" title="Machine-readable integration profile">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav shell">
+    <a class="brand" href="./" aria-label="AI Payment Control Plane home"><span class="mark" aria-hidden="true">+</span><span>AI Payment Control Plane</span></a>
+    <nav aria-label="Documentation navigation"><a href="./">Product</a><a href="#contract">Decision contract</a><a href="#start">Quick start</a></nav>
+    <a class="nav-cta" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml">Request a pilot</a>
+  </header>
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> HTTPS API · MCP tool · no custody</div>
+        <h1>Put one decision<br><em>before every signature.</em></h1>
+        <p class="lead">The agent proposes a payment. The control plane evaluates it. Your existing wallet or processor remains the only component that can move funds.</p>
+        <div class="actions"><a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">OpenAPI specification <span>↗</span></a><a class="button secondary" href="integration.json">Machine-readable profile</a></div>
+      </div>
+      <div class="decision-card" aria-label="Integration sequence">
+        <div class="terminal-bar"><span></span><span></span><span></span><b>pre-sign sequence</b></div>
+        <pre><code>agent creates payment intent
+        ↓
+POST /check
+        ↓
+ALLOW | BLOCK | REQUIRE_APPROVAL
+        ↓
+external signer verifies decision</code></pre>
+      </div>
+    </section>
+    <section class="section shell" id="contract">
+      <div class="section-head"><p class="kicker">STABLE CONTRACT</p><h2>Three outcomes an agent can act on.</h2></div>
+      <div class="grid three">
+        <article class="feature"><span class="number">01</span><h3>ALLOW</h3><p>The declared intent passes current policy. The signer must still verify that the payment matches the checked intent.</p></article>
+        <article class="feature"><span class="number">02</span><h3>BLOCK</h3><p>Stop execution. The response includes reason codes and a receipt for the attempted action.</p></article>
+        <article class="feature"><span class="number">03</span><h3>REQUIRE_APPROVAL</h3><p>Pause execution and route the intent to the owner or an approved human workflow.</p></article>
+      </div>
+    </section>
+    <section class="section demo-wrap" id="start">
+      <div class="shell demo-grid">
+        <div><p class="kicker">QUICK START</p><h2>Use a separate credential for each agent.</h2><p>Register an isolated free client credential, keep its administration token outside the model, and send the client token only with API or MCP calls.</p></div>
+        <div class="code-card"><pre><code>1. POST /register
+2. Store the returned administration credential outside the agent
+3. Give client_token to one agent
+4. POST /check before signing
+5. Continue only on ALLOW
+6. Verify receipt and intent at the signer</code></pre></div>
+      </div>
+    </section>
+    <section class="section shell integration">
+      <div><p class="kicker">FAIL CLOSED</p><h2>Unavailable means do not pay.</h2><p>A timeout, malformed response or unreachable control plane must stop the payment or send it for approval. It must never silently become an ALLOW.</p></div>
+      <div class="code-card"><pre><code>decision = control_plane.check(intent)
+
+if decision.status != "ALLOW":
+    stop_or_request_approval(decision)
+
+signer.verify(intent, decision.receipt)
+signer.sign(intent)</code></pre></div>
+      <div class="interfaces"><span>Per-agent tokens</span><span>Quota + rate limits</span><span>Revocation</span><span>Audit receipts</span></div>
+    </section>
+    <section class="section pilot">
+      <div class="shell pilot-inner"><div><p class="kicker">CONTROLLED PILOT</p><h2>Integrate one real payment path.</h2><p>Public qualification contains no secrets. Architecture, credentials and customer data stay out of the public request.</p></div><div class="pilot-card"><span class="pilot-label">Pilot entry</span><div class="price"><span>from</span><strong>€2,500</strong></div><a class="button primary full" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml">Request a controlled pilot <span>↗</span></a></div></div>
+    </section>
+  </main>
+  <footer class="shell"><div><strong>AI Payment Control Plane</strong><p>Pre-sign authorization infrastructure for autonomous commerce.</p></div><div class="footer-links"><a href="./">Product</a><a href="llms.txt">LLM summary</a><a href="integration.json">Integration profile</a></div><p class="legal">The service evaluates payment intent; it does not custody, sign, transmit or settle funds. No guaranteed fraud prevention or regulatory certification is claimed.</p></footer>
+</body>
+</html>
