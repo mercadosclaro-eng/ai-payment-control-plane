@@ -17,6 +17,7 @@
 - Health endpoint: https://payguard-production-abfe.up.railway.app/health
 - MCP Registry: https://registry.modelcontextprotocol.io/?q=payguard
 - x402/MCP pre-sign adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp
+- Base/USDC x402 wallet patch: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp
 - Independent live evaluation: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation
 - Pilot request: https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml
 

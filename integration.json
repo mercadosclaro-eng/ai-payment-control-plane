@@ -13,7 +13,8 @@
     "mcp_registry": "https://registry.modelcontextprotocol.io/?q=payguard"
   },
   "adapters": {
-    "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp"
+    "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp",
+    "x402_wallet_mcp_base_usdc": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp"
   },
   "independent_evaluation": {
     "url": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation",
