@@ -18,7 +18,11 @@
 - MCP Registry: https://registry.modelcontextprotocol.io/?q=payguard
 - x402/MCP pre-sign adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp
 - Base/USDC x402 wallet patch: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp
+- MPP one-time charge adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx
 - Independent live evaluation: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation
+- Upstream wallet integration pull request: https://github.com/onchainexpat/x402-wallet-mcp/pull/5
+- Cloudflare selected-requirement callback proposal: https://github.com/cloudflare/agents/issues/2359
+- x402 Foundation lifecycle contribution: https://github.com/x402-foundation/x402/issues/2533#issuecomment-5812636724
 - Pilot request: https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml
 
 ## Boundaries

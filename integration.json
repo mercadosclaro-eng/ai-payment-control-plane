@@ -14,7 +14,14 @@
   },
   "adapters": {
     "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp",
-    "x402_wallet_mcp_base_usdc": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp"
+    "x402_wallet_mcp_base_usdc": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp",
+    "mppx_charge": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx"
+  },
+  "upstream_work": {
+    "wallet_integration_pull_request": "https://github.com/onchainexpat/x402-wallet-mcp/pull/5",
+    "cloudflare_selected_requirement_callback": "https://github.com/cloudflare/agents/issues/2359",
+    "x402_foundation_lifecycle_contribution": "https://github.com/x402-foundation/x402/issues/2533#issuecomment-5812636724",
+    "status": "proposed; no adoption or endorsement claimed"
   },
   "independent_evaluation": {
     "url": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation",
