@@ -22,7 +22,7 @@
         <div class="eyebrow"><span class="pulse"></span> HTTPS API · MCP tool · no custody</div>
         <h1>Put one decision<br><em>before every signature.</em></h1>
         <p class="lead">The agent proposes a payment. The control plane evaluates it. Your existing wallet or processor remains the only component that can move funds.</p>
-        <div class="actions"><a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">OpenAPI specification <span>↗</span></a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp">x402/MCP adapter</a></div>
+        <div class="actions"><a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">OpenAPI specification <span>↗</span></a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation">Run independent evaluation</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp">x402/MCP adapter</a></div>
       </div>
       <div class="decision-card" aria-label="Integration sequence">
         <div class="terminal-bar"><span></span><span></span><span></span><b>pre-sign sequence</b></div>
@@ -64,6 +64,17 @@ if decision.status != "ALLOW":
 signer.verify(intent, decision.receipt)
 signer.sign(intent)</code></pre></div>
       <div class="interfaces"><span>Per-agent tokens</span><span>Quota + rate limits</span><span>Revocation</span><span>Audit receipts</span></div>
+    </section>
+    <section class="section demo-wrap" id="evaluate">
+      <div class="shell demo-grid">
+        <div><p class="kicker">INDEPENDENT EVALUATION</p><h2>Verify the public control path yourself.</h2><p>A dependency-free Node.js verifier creates one isolated free evaluation tenant, confirms a request-bound receipt, proves that a prompt-injection-driven payment is blocked, and checks idempotency, audit-chain status and usage. Credentials stay in memory and are never printed.</p><a class="button primary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation">Open the evaluation kit <span>↗</span></a></div>
+        <div class="code-card"><pre><code>node evaluate-live.mjs --live
+
+result: PASS
+baseline: ALLOW | REQUIRE_APPROVAL
+dangerous payment: BLOCK
+credentials printed: no</code></pre></div>
+      </div>
     </section>
     <section class="section pilot">
       <div class="shell pilot-inner"><div><p class="kicker">CONTROLLED PILOT</p><h2>Integrate one real payment path.</h2><p>Public qualification contains no secrets. Architecture, credentials and customer data stay out of the public request.</p></div><div class="pilot-card"><span class="pilot-label">Pilot entry</span><div class="price"><span>from</span><strong>€2,500</strong></div><a class="button primary full" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml">Request a controlled pilot <span>↗</span></a></div></div>

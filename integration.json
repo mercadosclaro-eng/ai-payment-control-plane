@@ -15,6 +15,12 @@
   "adapters": {
     "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp"
   },
+  "independent_evaluation": {
+    "url": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation",
+    "runtime": "Node.js 18+",
+    "command": "node evaluate-live.mjs --live",
+    "prints_credentials": false
+  },
   "integration": {
     "position": "immediately before external signing",
     "fail_closed": true,
