@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AI Payment Control Plane — Pre-sign authorization for AI agents</title>
+  <title>Varyntiq — Pre-sign authorization for AI agents</title>
   <meta name="description" content="Put an independent authorization layer between an AI agent's payment intent and the external signer. Policy, risk decisions and auditable receipts without custody.">
   <meta name="theme-color" content="#07110f">
-  <meta property="og:title" content="AI Payment Control Plane">
+  <meta property="og:title" content="Varyntiq">
   <meta property="og:description" content="Let AI agents transact without giving them unlimited authority.">
   <meta property="og:type" content="website">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307110f'/%3E%3Cpath d='M17 32h30M32 17v30' stroke='%2359f2b4' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='21' fill='none' stroke='%2359f2b4' stroke-width='3'/%3E%3C/svg%3E">
@@ -15,13 +15,13 @@
   <link rel="alternate" type="application/json" href="integration.json" title="Machine-readable integration profile">
   <meta property="og:url" content="https://mercadosclaro-eng.github.io/ai-payment-control-plane/">
   <link rel="stylesheet" href="styles.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Payment Control Plane","alternateName":"PayGuard (working name)","applicationCategory":"SecurityApplication","operatingSystem":"Cloud API","description":"Pre-sign authorization and policy control for AI agent payments.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Limited developer quota"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Varyntiq","alternateName":"AI Payment Control Plane","applicationCategory":"SecurityApplication","operatingSystem":"Cloud API","description":"Pre-sign authorization and policy control for AI agent payments.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Limited developer quota"}}</script>
 </head>
 <body>
   <header class="nav shell">
-    <a class="brand" href="#top" aria-label="AI Payment Control Plane home">
+    <a class="brand" href="#top" aria-label="Varyntiq home">
       <span class="mark" aria-hidden="true">+</span>
-      <span>AI Payment Control Plane</span>
+      <span>Varyntiq</span>
     </a>
     <nav aria-label="Primary navigation">
       <a href="#how">How it works</a>
@@ -41,7 +41,7 @@
           <a class="button primary" href="integration.html">Read the integration guide <span>↗</span></a>
           <a class="button secondary" href="#demo">Run the decision demo</a>
         </div>
-        <p class="working-name">Operational MVP currently uses the working name <strong>PayGuard</strong>.</p>
+        <p class="working-name"><strong>Varyntiq</strong> is the AI payment control plane. Existing technical endpoints remain compatible during the brand transition.</p>
       </div>
       <div class="decision-card" aria-label="Example payment decision">
         <div class="terminal-bar"><span></span><span></span><span></span><b>POST /check</b></div>
@@ -100,7 +100,7 @@
           <div class="result-status allow" id="resultStatus">ALLOW</div>
           <p id="resultMessage">Known provider, normal price and budget available.</p>
           <div class="reason-list" id="reasonList"><span>KNOWN_PAYEE</span><span>WITHIN_BUDGET</span></div>
-          <div class="boundary"><b>PayGuard stops here.</b><br>The external signer independently verifies the receipt before paying.</div>
+          <div class="boundary"><b>Varyntiq stops here.</b><br>The external signer independently verifies the receipt before paying.</div>
         </div>
       </div>
     </section>
@@ -133,6 +133,7 @@
           <div><strong>0</strong><span>funds or private keys held</span><small>Authorization only</small></div>
         </div>
         <p class="evidence-note">External verification covers service health, split tenant credentials, a bound BLOCK receipt, MCP access and immediate agent-token rotation. Customer adoption is not claimed.</p>
+        <div class="actions"><a class="button secondary" href="https://github.com/onchainexpat/x402-wallet-mcp/pull/5">Review the wallet integration PR <span>↗</span></a><a class="button secondary" href="https://github.com/cloudflare/agents/issues/2359">Review the Cloudflare interface proposal <span>↗</span></a><a class="button secondary" href="https://github.com/x402-foundation/x402/issues/2533#issuecomment-5812636724">Review the x402 lifecycle contribution <span>↗</span></a></div>
       </div>
     </section>
 
@@ -171,9 +172,9 @@ wallet.sign(payment_intent, decision.receipt)</code></pre></div>
   </main>
 
   <footer class="shell">
-    <div><strong>AI Payment Control Plane</strong><p>Pre-sign authorization infrastructure for autonomous commerce.</p></div>
+    <div><strong>Varyntiq</strong><p>AI payment control infrastructure for autonomous commerce.</p></div>
     <div class="footer-links"><a href="integration.html">Integration</a><a href="https://payguard-production-abfe.up.railway.app/openapi.json">API</a><a href="https://registry.modelcontextprotocol.io/?q=payguard">MCP Registry</a><a href="llms.txt">LLM summary</a></div>
-    <p class="legal">PayGuard is a working product name. The service evaluates payment intent; it does not custody, sign, transmit or settle funds. No claim of guaranteed fraud prevention or regulatory certification.</p>
+    <p class="legal">Varyntiq evaluates payment intent; it does not custody, sign, transmit or settle funds. No claim of guaranteed fraud prevention or regulatory certification.</p>
   </footer>
   <script src="app.js"></script>
 </body>
