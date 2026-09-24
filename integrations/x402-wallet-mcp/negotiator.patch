@@ -1,0 +1,54 @@
+diff --git a/src/payment/negotiator.ts b/src/payment/negotiator.ts
+--- a/src/payment/negotiator.ts
++++ b/src/payment/negotiator.ts
+@@
+ import { logger } from "../utils/logger.js";
++import { createPayGuardPreSignGate } from "./payguard.js";
++
++const payGuardGate = process.env.PAYGUARD_CLIENT_TOKEN
++  ? createPayGuardPreSignGate({
++      token: process.env.PAYGUARD_CLIENT_TOKEN,
++      agentId: process.env.PAYGUARD_AGENT_ID ?? "x402-wallet-mcp",
++      baseUrl: process.env.PAYGUARD_URL,
++    })
++  : null;
+@@
+   const limitCheck = checkSpendingLimit(amountAtomic);
+   if (!limitCheck.allowed) {
+@@
+   }
++
++  // Optional independent policy check. It runs after the wallet's local controls
++  // and before any signing call. Every result except a matching ALLOW fails closed.
++  if (payGuardGate) {
++    const authorization = await payGuardGate({ url, method, accept });
++    if (!authorization.allowed) {
++      return {
++        success: false,
++        status: 402,
++        data: {
++          error: "payguard_denied",
++          decision: authorization.decision,
++          reasons: authorization.reasons,
++          receiptId: authorization.receiptId,
++        },
++        error: `Independent pre-sign authorization returned ${authorization.decision}`,
++        amountPaid: 0n,
++        network,
++        scheme,
++      };
++    }
++  }
+ 
+   // Step 4b: Pre-flight balance check
+
+diff --git a/.env.example b/.env.example
+--- a/.env.example
++++ b/.env.example
+@@
++# Optional independent pre-sign policy gate. Use only the agent client token;
++# never place a PayGuard owner or tenant-administration token here.
++PAYGUARD_CLIENT_TOKEN=
++PAYGUARD_AGENT_ID=x402-wallet-mcp
++PAYGUARD_URL=https://payguard-production-abfe.up.railway.app
+
