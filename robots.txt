@@ -1,3 +1,10 @@
 User-agent: *
 Allow: /
-Sitemap: https://ai-payment-control-plane.fatigar42.chatgpt.site/sitemap.xml
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+Sitemap: https://mercadosclaro-eng.github.io/ai-payment-control-plane/sitemap.xml
