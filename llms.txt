@@ -16,6 +16,7 @@
 - OpenAPI document: https://payguard-production-abfe.up.railway.app/openapi.json
 - Health endpoint: https://payguard-production-abfe.up.railway.app/health
 - MCP Registry: https://registry.modelcontextprotocol.io/?q=payguard
+- x402/MCP pre-sign adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp
 - Pilot request: https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml
 
 ## Boundaries
@@ -29,4 +30,3 @@
 ## Integration rule
 
 Call `/check` immediately before signing. Continue only when the returned decision is `ALLOW`; stop or request owner approval for every other result. Verify the current request and receipt again at the signer boundary.
-

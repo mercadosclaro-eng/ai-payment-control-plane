@@ -12,6 +12,9 @@
     "registration": "https://payguard-production-abfe.up.railway.app/register",
     "mcp_registry": "https://registry.modelcontextprotocol.io/?q=payguard"
   },
+  "adapters": {
+    "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp"
+  },
   "integration": {
     "position": "immediately before external signing",
     "fail_closed": true,
@@ -27,4 +30,3 @@
   "documentation": "https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html",
   "pilot_request": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml"
 }
-
