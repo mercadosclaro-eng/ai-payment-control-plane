@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ai-payment-control-plane.fatigar42.chatgpt.site/sitemap.xml

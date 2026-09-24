@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Payment Control Plane — Pre-sign authorization for AI agents</title>
+  <meta name="description" content="Put an independent authorization layer between an AI agent's payment intent and the external signer. Policy, risk decisions and auditable receipts without custody.">
+  <meta name="theme-color" content="#07110f">
+  <meta property="og:title" content="AI Payment Control Plane">
+  <meta property="og:description" content="Let AI agents transact without giving them unlimited authority.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2307110f'/%3E%3Cpath d='M17 32h30M32 17v30' stroke='%2359f2b4' stroke-width='6' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='21' fill='none' stroke='%2359f2b4' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="canonical" href="https://ai-payment-control-plane.fatigar42.chatgpt.site/">
+  <meta property="og:url" content="https://ai-payment-control-plane.fatigar42.chatgpt.site/">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"AI Payment Control Plane","alternateName":"PayGuard (working name)","applicationCategory":"SecurityApplication","operatingSystem":"Cloud API","description":"Pre-sign authorization and policy control for AI agent payments.","offers":{"@type":"Offer","price":"0","priceCurrency":"EUR","description":"Limited developer quota"}}</script>
+</head>
+<body>
+  <header class="nav shell">
+    <a class="brand" href="#top" aria-label="AI Payment Control Plane home">
+      <span class="mark" aria-hidden="true">+</span>
+      <span>AI Payment Control Plane</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#how">How it works</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#pilot">Pilot</a>
+    </nav>
+    <a class="nav-cta" href="https://github.com/google-agentic-commerce/a2a-x402/discussions/181">Discuss a pilot</a>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse"></span> Live API · MCP Registry · x402-ready</div>
+        <h1>Let AI agents spend.<br><em>Keep authority.</em></h1>
+        <p class="lead">An independent control plane that evaluates every payment intent before anything is signed. Deterministic policy, risk scoring and auditable decisions—with no custody of funds or keys.</p>
+        <div class="actions">
+          <a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">Inspect the live API <span>↗</span></a>
+          <a class="button secondary" href="#demo">Run the decision demo</a>
+        </div>
+        <p class="working-name">Operational MVP currently uses the working name <strong>PayGuard</strong>.</p>
+      </div>
+      <div class="decision-card" aria-label="Example payment decision">
+        <div class="terminal-bar"><span></span><span></span><span></span><b>POST /check</b></div>
+        <pre><code>{
+  "agent_id": "procurement-agent",
+  "amount": 4800,
+  "currency": "USD",
+  "payee": "new-vendor.example",
+  "rail": "x402"
+}</code></pre>
+        <div class="decision-row">
+          <span class="status approval">REQUIRE_APPROVAL</span>
+          <span class="score">risk 68/100</span>
+        </div>
+        <div class="reason">NEW_PAYEE · AMOUNT_ANOMALY · OWNER_POLICY</div>
+        <div class="receipt"><span>receipt</span><code>pg_8f31…b90d</code><span>bound &amp; auditable</span></div>
+      </div>
+    </section>
+
+    <section class="category-strip">
+      <div class="shell strip-inner">
+        <strong>The missing step in agentic commerce</strong>
+        <div class="flow" aria-label="Payment authorization flow">
+          <span>Agent intent</span><i>→</i><span class="active">Policy decision</span><i>→</i><span>External signer</span><i>→</i><span>Payment rail</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="how">
+      <div class="section-head">
+        <p class="kicker">CONTROL BEFORE EXECUTION</p>
+        <h2>A neutral authorization layer for every payment rail.</h2>
+        <p>The agent proposes. The control plane decides. Your existing wallet or processor remains the only component that can sign and move money.</p>
+      </div>
+      <div class="grid three">
+        <article class="feature"><span class="number">01</span><h3>Evaluate intent</h3><p>Check amount, budget, payee, frequency, price history, duplication and the context that led to payment.</p></article>
+        <article class="feature"><span class="number">02</span><h3>Return one decision</h3><p><strong>ALLOW</strong>, <strong>BLOCK</strong> or <strong>REQUIRE_APPROVAL</strong>, with stable reason codes that an agent can act on.</p></article>
+        <article class="feature"><span class="number">03</span><h3>Prove what happened</h3><p>Issue an expiring receipt bound to the request, endpoint, payee, amount, rail, network and asset.</p></article>
+      </div>
+    </section>
+
+    <section class="section demo-wrap" id="demo">
+      <div class="shell demo-grid">
+        <div>
+          <p class="kicker">INTERACTIVE DECISION DEMO</p>
+          <h2>Three intents. Three controlled outcomes.</h2>
+          <p>Choose a scenario. This local demonstration shows the contract an external agent receives; it does not move funds or use a wallet.</p>
+          <div class="scenario-list" role="group" aria-label="Choose a payment scenario">
+            <button class="scenario selected" data-case="normal"><span>Known subscription</span><small>Expected amount and approved provider</small></button>
+            <button class="scenario" data-case="vendor"><span>New high-value vendor</span><small>Unseen payee above the approval threshold</small></button>
+            <button class="scenario" data-case="attack"><span>Injected payment command</span><small>Untrusted content tries to redirect the payment</small></button>
+          </div>
+        </div>
+        <div class="result-panel" aria-live="polite">
+          <div class="result-top"><span>decision</span><span id="riskLabel">risk 08/100</span></div>
+          <div class="result-status allow" id="resultStatus">ALLOW</div>
+          <p id="resultMessage">Known provider, normal price and budget available.</p>
+          <div class="reason-list" id="reasonList"><span>KNOWN_PAYEE</span><span>WITHIN_BUDGET</span></div>
+          <div class="boundary"><b>PayGuard stops here.</b><br>The external signer independently verifies the receipt before paying.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell" id="controls">
+      <div class="section-head narrow">
+        <p class="kicker">POLICY + RISK</p>
+        <h2>Controls owners can understand.</h2>
+      </div>
+      <div class="control-grid">
+        <div><b>Budgets &amp; limits</b><span>Per transaction, day and month</span></div>
+        <div><b>Duplicate protection</b><span>Intent replay and changed-data detection</span></div>
+        <div><b>Payee controls</b><span>Allowlist, blocklist and new-provider review</span></div>
+        <div><b>Price anomalies</b><span>Historical range and trusted-quote checks</span></div>
+        <div><b>Velocity controls</b><span>Frequency and burst detection</span></div>
+        <div><b>Prompt-to-payment defense</b><span>Signals for injected or redirected intent</span></div>
+      </div>
+    </section>
+
+    <section class="section proof" id="evidence">
+      <div class="shell">
+        <div class="section-head">
+          <p class="kicker">VERIFIABLE TODAY</p>
+          <h2>A working service, not a concept deck.</h2>
+        </div>
+        <div class="metrics">
+          <a href="https://github.com/mercadosclaro-eng/payguard/actions/runs/35972529824"><strong>13</strong><span>automated tests passing</span><small>View external verification ↗</small></a>
+          <a href="https://payguard-production-abfe.up.railway.app/health"><strong>Live</strong><span>HTTPS service</span><small>Check production health ↗</small></a>
+          <a href="https://registry.modelcontextprotocol.io/?q=payguard"><strong>MCP</strong><span>official registry listing</span><small>Find the server ↗</small></a>
+          <div><strong>0</strong><span>funds or private keys held</span><small>Authorization only</small></div>
+        </div>
+        <p class="evidence-note">External verification covers service health, split tenant credentials, a bound BLOCK receipt, MCP access and immediate agent-token rotation. Customer adoption is not claimed.</p>
+      </div>
+    </section>
+
+    <section class="section shell integration">
+      <div>
+        <p class="kicker">INTEGRATE WHERE AUTHORITY CHANGES HANDS</p>
+        <h2>One pre-sign check.</h2>
+      </div>
+      <div class="code-card"><pre><code>decision = payguard.check(payment_intent)
+
+if decision.status != "ALLOW":
+    stop_or_request_approval(decision)
+
+# wallet remains outside the control plane
+wallet.sign(payment_intent, decision.receipt)</code></pre></div>
+      <div class="interfaces"><span>HTTPS /check</span><span>MCP tool</span><span>x402 pre-sign</span><span>Fail-closed client</span></div>
+    </section>
+
+    <section class="section pilot" id="pilot">
+      <div class="shell pilot-inner">
+        <div>
+          <p class="kicker">CONTROLLED INTEGRATION PILOT</p>
+          <h2>Protect one real agent payment flow.</h2>
+          <p>We connect the authorization step to one existing payment path, define owner policy and prove the result with an auditable test pack.</p>
+        </div>
+        <div class="pilot-card">
+          <span class="pilot-label">Pilot scope</span>
+          <ul><li>One agent workflow</li><li>One pre-sign integration</li><li>Policy configuration</li><li>Attack and failure-path validation</li></ul>
+          <div class="price"><span>from</span><strong>€2,500</strong></div>
+          <a class="button primary full" href="https://github.com/google-agentic-commerce/a2a-x402/discussions/181">Start a technical discussion <span>↗</span></a>
+          <small>Final scope and terms agreed before work begins. Automated billing is not active.</small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <div><strong>AI Payment Control Plane</strong><p>Pre-sign authorization infrastructure for autonomous commerce.</p></div>
+    <div class="footer-links"><a href="https://payguard-production-abfe.up.railway.app/openapi.json">API</a><a href="https://registry.modelcontextprotocol.io/?q=payguard">MCP Registry</a><a href="https://github.com/google-agentic-commerce/a2a-x402/discussions/181">Technical discussion</a></div>
+    <p class="legal">PayGuard is a working product name. The service evaluates payment intent; it does not custody, sign, transmit or settle funds. No claim of guaranteed fraud prevention or regulatory certification.</p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
