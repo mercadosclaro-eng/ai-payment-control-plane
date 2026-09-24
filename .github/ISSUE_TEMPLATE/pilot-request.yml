@@ -1,0 +1,82 @@
+name: Controlled integration pilot
+description: Request a scoped pre-sign authorization pilot. Do not include confidential information, credentials, wallet addresses or transaction data.
+title: "Pilot request: "
+labels:
+  - pilot
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for evaluating the AI Payment Control Plane. This form is public.
+
+        **Do not post confidential information, credentials, private endpoints, wallet details, customer data or internal architecture.** The first step only determines whether a controlled pilot is a fit.
+  - type: input
+    id: project
+    attributes:
+      label: Public company or project name
+      description: A public name or URL is enough. Do not include personal data.
+      placeholder: Company, project or public repository
+    validations:
+      required: true
+  - type: dropdown
+    id: workflow
+    attributes:
+      label: Current payment stage
+      options:
+        - Agent can already propose payments
+        - Agent is connected to a signer or wallet in testing
+        - Agent executes payments in production
+        - Designing the payment workflow
+    validations:
+      required: true
+  - type: checkboxes
+    id: rails
+    attributes:
+      label: Relevant rails or interfaces
+      options:
+        - label: x402
+        - label: MCP tool
+        - label: A2A workflow
+        - label: Wallet or transaction signer
+        - label: Traditional payment API
+        - label: Other or undecided
+  - type: dropdown
+    id: volume
+    attributes:
+      label: Expected monthly authorization volume
+      options:
+        - Under 1,000
+        - 1,000–10,000
+        - 10,000–100,000
+        - Over 100,000
+        - Unknown during pilot
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Pilot outcome
+      description: Describe only the business result and public integration boundary you want to test.
+      placeholder: Evaluate one agent workflow before its external signer and prove that unsafe requests are stopped.
+    validations:
+      required: true
+  - type: dropdown
+    id: timeline
+    attributes:
+      label: Intended start
+      options:
+        - Within 2 weeks
+        - Within 30 days
+        - Within 90 days
+        - Researching only
+    validations:
+      required: true
+  - type: checkboxes
+    id: acknowledgment
+    attributes:
+      label: Public-form acknowledgement
+      options:
+        - label: I have not included secrets, credentials, personal data or confidential company information.
+          required: true
+        - label: I understand this request is not a contract and the public pilot price starts at €2,500.
+          required: true
