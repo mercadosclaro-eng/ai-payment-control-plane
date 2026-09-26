@@ -29,7 +29,8 @@
   "adapters": {
     "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp",
     "x402_wallet_mcp_base_usdc": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp",
-    "mppx_charge": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx"
+    "mppx_charge": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx",
+    "inflow_x402_buyer": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402"
   },
   "upstream_work": {
     "wallet_integration_pull_request": "https://github.com/onchainexpat/x402-wallet-mcp/pull/5",

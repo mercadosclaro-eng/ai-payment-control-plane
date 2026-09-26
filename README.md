@@ -6,4 +6,6 @@ Varyntiq is the confirmed public product name. Older `payguard` repository, endp
 
 Public discovery assets include a human integration guide, an `llms.txt` summary and a standards-neutral `integration.json` profile. They describe only the public contract and operational boundaries. They do not claim A2A, x402 settlement or wallet functionality that the service does not implement.
 
+Public reference integrations include Agent402/MPP, the official x402 MCP hook, x402 wallet clients and an InFlow x402 buyer hook that runs immediately before managed signing. These adapters expose only the public decision contract and never receive wallet keys.
+
 Pilot requests are collected through a public GitHub issue form that explicitly forbids secrets, credentials, wallet details, customer data and confidential architecture. Deeper evaluation material is shared only through a separately controlled confidential process.

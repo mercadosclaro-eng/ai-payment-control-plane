@@ -27,6 +27,7 @@ Do not claim that installation is mandatory, that Varyntiq guarantees fraud prev
 - x402/MCP pre-sign adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp
 - Base/USDC x402 wallet patch: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp
 - MPP one-time charge adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx
+- InFlow x402 buyer adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402
 - Independent live evaluation: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation
 - Upstream wallet integration pull request: https://github.com/onchainexpat/x402-wallet-mcp/pull/5
 - Cloudflare selected-requirement callback proposal: https://github.com/cloudflare/agents/issues/2359

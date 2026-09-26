@@ -22,7 +22,7 @@
         <div class="eyebrow"><span class="pulse"></span> HTTPS API · MCP tool · no custody</div>
         <h1>Put one decision<br><em>before every signature.</em></h1>
         <p class="lead">The agent proposes a payment. The control plane evaluates it. Your existing wallet or processor remains the only component that can move funds.</p>
-        <div class="actions"><a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">OpenAPI specification <span>↗</span></a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation">Run independent evaluation</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp">x402/MCP adapter</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx">MPP adapter</a></div>
+        <div class="actions"><a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">OpenAPI specification <span>↗</span></a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation">Run independent evaluation</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402">InFlow x402 adapter</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp">x402/MCP adapter</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx">MPP adapter</a></div>
       </div>
       <div class="decision-card" aria-label="Integration sequence">
         <div class="terminal-bar"><span></span><span></span><span></span><b>pre-sign sequence</b></div>
@@ -83,6 +83,7 @@ credentials printed: no</code></pre></div>
         <article class="feature"><span class="number">02</span><h3>Cloudflare callback</h3><p>A selected-requirement callback proposal so authorization can bind to the exact payment later signed.</p><a href="https://github.com/cloudflare/agents/issues/2359">Review interface proposal ↗</a></article>
         <article class="feature"><span class="number">03</span><h3>x402 lifecycle rules</h3><p>Host lifecycle and fail-closed invariants contributed to the Foundation's pre-payment-guard discussion.</p><a href="https://github.com/x402-foundation/x402/issues/2533#issuecomment-5812636724">Review contribution ↗</a></article>
         <article class="feature"><span class="number">04</span><h3>Machine Payments Protocol</h3><p>A one-time charge adapter tested against the official mppx 0.11.0 prepare-and-pay runtime.</p><a href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx">Open MPP adapter ↗</a></article>
+        <article class="feature"><span class="number">05</span><h3>InFlow x402 buyer</h3><p>A fail-closed hook for InFlow's corrected pre-sign managed-payment boundary, with network-free tests.</p><a href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402">Open InFlow adapter ↗</a></article>
       </div>
     </section>
     <section class="section pilot">
