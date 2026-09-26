@@ -111,6 +111,8 @@
           </div>
           <p class="receipt-disclosure">This demo creates and verifies an ephemeral browser signature. No wallet, private key or real payment is involved.</p>
           <div class="boundary"><b>Varyntiq stops here.</b><br>The external signer verifies this decision before paying. A fail-closed path blocks when the proof is missing or changed.</div>
+          <div class="actions demo-actions"><button class="copy-receipt" id="runProof" type="button">Run full proof</button><button class="copy-receipt" id="tamperProof" type="button">Test tamper detection</button></div>
+          <p class="proof-result" id="proofResult" aria-live="polite">Ready for a full proof run.</p>
           <button class="copy-receipt" id="copyReceipt" type="button">Copy verification receipt</button>
         </div>
       </div>

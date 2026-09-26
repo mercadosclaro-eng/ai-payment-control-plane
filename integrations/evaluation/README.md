@@ -11,6 +11,8 @@ It checks:
 - idempotent retry behavior;
 - the tenant's audit-chain status and usage meter.
 
+The repository also includes a no-network conformance proof. It generates an ephemeral ECDSA key, signs five decision receipts, verifies each receipt and proves that changing the intent makes verification fail.
+
 The script keeps both one-time credentials in memory and never prints them. It never receives wallet keys and never signs or sends a payment.
 
 ## Run
@@ -28,8 +30,10 @@ Successful output contains only the client ID, decisions, reason codes and compl
 ## Test locally without calling the service
 
 ```sh
+node demo-conformance.mjs
 node --test evaluate-live.test.mjs
+node --test demo-conformance.test.mjs
 ```
 
-The mock tests verify the successful path, refusal of an unsafe `ALLOW`, receipt binding and credential redaction.
+The mock tests verify the successful path, refusal of an unsafe `ALLOW`, receipt binding, credential redaction and tamper rejection. The conformance proof is local only; it does not claim that a production service has been externally adopted.
 

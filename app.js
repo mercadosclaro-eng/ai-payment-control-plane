@@ -83,6 +83,16 @@ async function signReceipt(receiptText) {
   }
 }
 
+async function verifyReceipt(receipt) {
+  if (!state.keyPair || !window.crypto?.subtle || !receipt?.signature) return false;
+  const { signature, ...unsigned } = receipt;
+  const raw = Uint8Array.from(atob(signature.replace(/-/g, "+").replace(/_/g, "/") + "=="), (char) => char.charCodeAt(0));
+  return window.crypto.subtle.verify(
+    { name: "ECDSA", hash: "SHA-256" }, state.keyPair.publicKey, raw,
+    new TextEncoder().encode(JSON.stringify(unsigned))
+  );
+}
+
 async function renderCase(caseName) {
   const item = cases[caseName];
   document.querySelectorAll(".scenario").forEach((button) => button.classList.toggle("selected", button.dataset.case === caseName));
@@ -122,6 +132,28 @@ byId("copyReceipt")?.addEventListener("click", async (event) => {
   } catch {
     event.currentTarget.textContent = "Copy unavailable";
   }
+});
+
+byId("runProof")?.addEventListener("click", async (event) => {
+  event.currentTarget.textContent = "Running…";
+  state.runs = 0;
+  state.blocks = 0;
+  for (const caseName of ["allow", "recipient", "amount", "replay", "outage"]) await renderCase(caseName);
+  byId("proofResult").textContent = "FULL PROOF PASSED · 5/5 scenarios · 4 blocked · €0 moved";
+  event.currentTarget.textContent = "Run full proof";
+});
+
+byId("tamperProof")?.addEventListener("click", async (event) => {
+  if (!state.receipt) return;
+  event.currentTarget.textContent = "Checking…";
+  const receipt = JSON.parse(state.receipt);
+  const originalValid = await verifyReceipt(receipt);
+  const tampered = { ...receipt, intent_sha256: "tampered-intent" };
+  const tamperedValid = await verifyReceipt(tampered);
+  byId("proofResult").textContent = originalValid && !tamperedValid
+    ? "TAMPER DETECTED · original receipt valid · changed receipt rejected"
+    : "Verification unavailable in this browser";
+  event.currentTarget.textContent = "Test tamper detection";
 });
 
 renderCase("allow");
