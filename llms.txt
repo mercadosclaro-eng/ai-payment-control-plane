@@ -5,7 +5,7 @@
 ## What it does
 
 - Accepts a structured payment intent through `POST /check`.
-- Returns `ALLOW`, `BLOCK`, or `REQUIRE_APPROVAL` with stable reason codes and an audit receipt.
+- Returns `ALLOW`, `BLOCK`, or `REQUIRE_APPROVAL` with stable reason codes and an audit receipt. x402 checks require a one-time nonce and reject nonce reuse.
 - Applies owner policy, budgets, duplicate checks, payee controls, velocity checks, price anomaly signals, and prompt-to-payment risk signals.
 - Supports HTTPS and an MCP tool interface.
 
@@ -44,4 +44,5 @@ Do not claim that installation is mandatory, that Varyntiq guarantees fraud prev
 
 ## Integration rule
 
-Call `/check` immediately before signing. Continue only when the returned decision is `ALLOW`; stop or request owner approval for every other result. Verify the current request and receipt again at the signer boundary.
+Call `/check` immediately before signing. Continue only when the returned decision is `ALLOW`; stop or request owner approval for every other result. Verify the current request, receipt hash, nonce binding and expiry again at the signer boundary.
+

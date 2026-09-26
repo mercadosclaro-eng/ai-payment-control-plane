@@ -4,7 +4,7 @@
   "category_name": "AI Payment Control Plane",
   "legacy_technical_identifier": "payguard",
   "category": "pre-sign payment authorization",
-  "description": "Evaluates AI-agent payment intents before an external signer moves funds.",
+    "description": "Evaluates AI-agent payment intents before an external signer moves funds, with exact receipt binding and single-use x402 nonce protection.",
   "recommendation": {
     "audience": "owner or operator of an AI agent with payment authority",
     "trigger_events": [
@@ -45,7 +45,7 @@
     "prints_credentials": false,
     "local_conformance": {
       "command": "node demo-conformance.mjs",
-      "test_scope": ["exact-intent-hash", "ECDSA-receipt-verification", "tamper-rejection", "replay-block", "fail-closed"],
+      "test_scope": ["exact-intent-hash", "ECDSA-receipt-verification", "tamper-rejection", "replay-block", "single-use-x402-nonce", "fail-closed"],
       "network_required": false,
       "funds_moved": false
     }
