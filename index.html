@@ -103,7 +103,13 @@
           <div class="result-status allow" id="resultStatus">ALLOW</div>
           <p id="resultMessage">Known recipient, exact amount and fresh nonce.</p>
           <div class="reason-list" id="reasonList"><span>KNOWN_PAYEE</span><span>WITHIN_BUDGET</span><span>FRESH_NONCE</span></div>
-          <div class="receipt-box"><div><span>intent hash</span><code id="intentHash">calculating…</code></div><div><span>receipt</span><code id="receiptId">demo_—</code></div></div>
+          <div class="receipt-box">
+            <div><span>intent hash</span><code id="intentHash">calculating…</code></div>
+            <div><span>receipt</span><code id="receiptId">demo_—</code></div>
+            <div><span>signature</span><code id="signatureValue">creating…</code></div>
+            <div><span>browser verification</span><strong class="receipt-valid" id="verificationState">checking…</strong></div>
+          </div>
+          <p class="receipt-disclosure">This demo creates and verifies an ephemeral browser signature. No wallet, private key or real payment is involved.</p>
           <div class="boundary"><b>Varyntiq stops here.</b><br>The external signer verifies this decision before paying. A fail-closed path blocks when the proof is missing or changed.</div>
           <button class="copy-receipt" id="copyReceipt" type="button">Copy verification receipt</button>
         </div>

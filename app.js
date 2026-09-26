@@ -41,7 +41,7 @@ const cases = {
 };
 
 const byId = (id) => document.getElementById(id);
-const state = { runs: 0, blocks: 0, receipt: "" };
+const state = { runs: 0, blocks: 0, receipt: "", keyPair: null };
 
 function stableStringify(value) {
   return JSON.stringify(value, Object.keys(value).sort());
@@ -56,6 +56,33 @@ async function hashIntent(intent) {
   return Array.from(payload).reduce((hash, byte) => ((hash * 31 + byte) >>> 0), 2166136261).toString(16).padStart(8, "0").repeat(8);
 }
 
+function base64Url(bytes) {
+  let binary = "";
+  bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+}
+
+async function signReceipt(receiptText) {
+  if (!window.crypto?.subtle) return { signature: "unavailable", verified: false };
+  try {
+    if (!state.keyPair) {
+      state.keyPair = await window.crypto.subtle.generateKey(
+        { name: "ECDSA", namedCurve: "P-256" }, true, ["sign", "verify"]
+      );
+    }
+    const data = new TextEncoder().encode(receiptText);
+    const signature = await window.crypto.subtle.sign(
+      { name: "ECDSA", hash: "SHA-256" }, state.keyPair.privateKey, data
+    );
+    const verified = await window.crypto.subtle.verify(
+      { name: "ECDSA", hash: "SHA-256" }, state.keyPair.publicKey, signature, data
+    );
+    return { signature: base64Url(new Uint8Array(signature)), verified };
+  } catch {
+    return { signature: "unavailable", verified: false };
+  }
+}
+
 async function renderCase(caseName) {
   const item = cases[caseName];
   document.querySelectorAll(".scenario").forEach((button) => button.classList.toggle("selected", button.dataset.case === caseName));
@@ -63,11 +90,13 @@ async function renderCase(caseName) {
   state.runs += 1;
   if (item.status === "BLOCK") state.blocks += 1;
   const receiptId = "demo_" + hash.slice(0, 10);
-  state.receipt = JSON.stringify({
+  const unsignedReceipt = {
     version: "demo-receipt-v1", decision: item.status, reason_codes: item.reasons,
     intent_sha256: hash, receipt_id: receiptId, policy: "varyntiq-demo-policy",
     signer_boundary: "external-signer", funds_moved: false
-  }, null, 2);
+  };
+  const signed = await signReceipt(JSON.stringify(unsignedReceipt));
+  state.receipt = JSON.stringify({ ...unsignedReceipt, signature: signed.signature }, null, 2);
   const status = byId("resultStatus");
   status.className = "result-status " + item.cls;
   status.textContent = item.status;
@@ -76,6 +105,8 @@ async function renderCase(caseName) {
   byId("reasonList").innerHTML = item.reasons.map((reason) => "<span>" + reason + "</span>").join("");
   byId("intentHash").textContent = hash.slice(0, 18) + "…" + hash.slice(-10);
   byId("receiptId").textContent = receiptId;
+  byId("signatureValue").textContent = signed.signature === "unavailable" ? "unavailable" : signed.signature.slice(0, 18) + "…";
+  byId("verificationState").textContent = signed.verified ? "VALID" : "UNAVAILABLE";
   byId("runCount").textContent = state.runs;
   byId("blockCount").textContent = state.blocks;
   byId("copyReceipt").textContent = "Copy verification receipt";
@@ -94,3 +125,4 @@ byId("copyReceipt")?.addEventListener("click", async (event) => {
 });
 
 renderCase("allow");
+
