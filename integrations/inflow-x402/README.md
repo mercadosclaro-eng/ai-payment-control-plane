@@ -24,7 +24,7 @@ client.onBeforePaymentCreation(createVaryntiqInflowHook({
 }));
 ```
 
-Use the hook only with an InFlow release that includes the managed-payment lifecycle-hook correction merged in [inflowpayai/inflow-node#67](https://github.com/inflowpayai/inflow-node/pull/67).
+Until InFlow releases the managed-payment lifecycle-hook correction, apply the companion local patch included with this contribution before using the adapter.
 
 ## Verify locally
 
@@ -35,3 +35,4 @@ node --test varyntiq-inflow.test.mjs
 The test pack proves explicit `ALLOW`, `BLOCK`, `REQUIRE_APPROVAL`, invalid input, network failure and mismatched-receipt behavior without creating a wallet or moving money.
 
 This is an independent compatibility example. InFlow has not adopted or endorsed Varyntiq.
+

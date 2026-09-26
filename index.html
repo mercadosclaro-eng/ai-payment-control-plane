@@ -86,21 +86,26 @@
     <section class="section demo-wrap" id="demo">
       <div class="shell demo-grid">
         <div>
-          <p class="kicker">INTERACTIVE DECISION DEMO</p>
-          <h2>Three intents. Three controlled outcomes.</h2>
-          <p>Choose a scenario. This local demonstration shows the contract an external agent receives; it does not move funds or use a wallet.</p>
+          <p class="kicker">LIVE-SAFE DECISION PROOF</p>
+          <h2>See the dangerous path stop before signing.</h2>
+          <p>Run five payment intents against the same policy. The demo is deterministic, transparent and safe: it never connects to a wallet, signs a transaction or moves money.</p>
           <div class="scenario-list" role="group" aria-label="Choose a payment scenario">
-            <button class="scenario selected" data-case="normal"><span>Known subscription</span><small>Expected amount and approved provider</small></button>
-            <button class="scenario" data-case="vendor"><span>New high-value vendor</span><small>Unseen payee above the approval threshold</small></button>
-            <button class="scenario" data-case="attack"><span>Injected payment command</span><small>Untrusted content tries to redirect the payment</small></button>
+            <button class="scenario selected" data-case="allow"><span>01 · Approved payment</span><small>Known recipient, exact amount and fresh nonce</small></button>
+            <button class="scenario" data-case="recipient"><span>02 · Recipient changed</span><small>The destination no longer matches the approved intent</small></button>
+            <button class="scenario" data-case="amount"><span>03 · Amount changed</span><small>The request is above the signed budget</small></button>
+            <button class="scenario" data-case="replay"><span>04 · Replay attempt</span><small>The same intent is presented a second time</small></button>
+            <button class="scenario" data-case="outage"><span>05 · Control plane unavailable</span><small>No decision means no signature</small></button>
           </div>
+          <div class="demo-summary" aria-label="Demo summary"><span><b id="runCount">0</b> scenarios run</span><span><b id="blockCount">0</b> blocked</span><span><b>€0</b> moved</span></div>
         </div>
         <div class="result-panel" aria-live="polite">
-          <div class="result-top"><span>decision</span><span id="riskLabel">risk 08/100</span></div>
+          <div class="result-top"><span>policy decision</span><span id="riskLabel">risk 08/100</span></div>
           <div class="result-status allow" id="resultStatus">ALLOW</div>
-          <p id="resultMessage">Known provider, normal price and budget available.</p>
-          <div class="reason-list" id="reasonList"><span>KNOWN_PAYEE</span><span>WITHIN_BUDGET</span></div>
-          <div class="boundary"><b>Varyntiq stops here.</b><br>The external signer independently verifies the receipt before paying.</div>
+          <p id="resultMessage">Known recipient, exact amount and fresh nonce.</p>
+          <div class="reason-list" id="reasonList"><span>KNOWN_PAYEE</span><span>WITHIN_BUDGET</span><span>FRESH_NONCE</span></div>
+          <div class="receipt-box"><div><span>intent hash</span><code id="intentHash">calculating…</code></div><div><span>receipt</span><code id="receiptId">demo_—</code></div></div>
+          <div class="boundary"><b>Varyntiq stops here.</b><br>The external signer verifies this decision before paying. A fail-closed path blocks when the proof is missing or changed.</div>
+          <button class="copy-receipt" id="copyReceipt" type="button">Copy verification receipt</button>
         </div>
       </div>
     </section>
@@ -179,3 +184,4 @@ wallet.sign(payment_intent, decision.receipt)</code></pre></div>
   <script src="app.js"></script>
 </body>
 </html>
+
