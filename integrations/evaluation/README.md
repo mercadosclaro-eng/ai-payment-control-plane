@@ -8,6 +8,7 @@ It checks:
 - an isolated free tenant with separate agent and administration credentials;
 - a request-bound baseline receipt;
 - `BLOCK` plus a machine-readable reason for a prompt-injection-driven payment;
+- separate one-time x402 nonces for each evaluated intent;
 - idempotent retry behavior;
 - the tenant's audit-chain status and usage meter.
 
@@ -36,4 +37,3 @@ node --test demo-conformance.test.mjs
 ```
 
 The mock tests verify the successful path, refusal of an unsafe `ALLOW`, receipt binding, credential redaction and tamper rejection. The conformance proof is local only; it does not claim that a production service has been externally adopted.
-

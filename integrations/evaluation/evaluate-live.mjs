@@ -73,6 +73,7 @@ export async function evaluatePayGuard({
       payTo: "0x1111111111111111111111111111111111111111",
       network: "eip155:8453",
       asset: "0x833589fcd6edb6e08f4c7c32d4f71b54bda02913",
+      nonce: `eval-${evaluationId}-normal`,
     },
     context: { source_trust: "trusted", expected_price_minor: 1_000_000 },
   };
@@ -89,6 +90,7 @@ export async function evaluatePayGuard({
     ...normalIntent,
     intent_id: `eval-danger-${evaluationId}`,
     endpoint: "https://untrusted.example/pay",
+    x402: { ...normalIntent.x402, nonce: `eval-${evaluationId}-danger` },
     context: {
       source_trust: "untrusted",
       payment_requested_by_untrusted_content: true,
