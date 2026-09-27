@@ -1,4 +1,4 @@
-const DEFAULT_BASE_URL = "https://payguard-production-abfe.up.railway.app";
+const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL ?? "https://payguard-production-abfe.up.railway.app";
 
 function text(value, name) {
   if (typeof value !== "string" || !value.trim()) {

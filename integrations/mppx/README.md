@@ -1,18 +1,18 @@
-# PayGuard adapter for mppx 0.11.0
+# Varyntiq adapter for mppx 0.11.0
 
-This adapter places an independent PayGuard decision between `mppx.prepareRequest()` and `PreparedRequest.payment.pay()`.
+This adapter places an independent Varyntiq decision between `mppx.prepareRequest()` and `PreparedRequest.payment.pay()`.
 
 It supports one-time MPP `charge` intents. The adapter binds the authorization to the exact effective request URL and a canonical SHA-256 digest of the complete selected challenge. It calls `payment.pay()` only after a matching, unexpired `ALLOW` receipt.
 
 It fails closed for `BLOCK`, `REQUIRE_APPROVAL`, sessions, subscriptions, unknown currencies, invalid amounts, missing recipients, timeouts, transport failures, malformed or mismatched receipts, and a changed challenge.
 
-The MPP account, private key and generated credential remain inside `mppx`. Give the adapter a dedicated PayGuard client token, never an owner or administration credential.
+The MPP account, private key and generated credential remain inside `mppx`. Give the adapter a dedicated Varyntiq client token, never an owner or administration credential.
 
 ## Use
 
 ```js
 import { Mppx, tempo } from "mppx/client";
-import { authorizeAndPayPreparedRequest } from "./payguard.mjs";
+import { authorizeAndPayPreparedRequest } from "./varyntiq.mjs";
 
 const mppx = Mppx.create({
   methods: [tempo({ account })],
@@ -26,7 +26,7 @@ const prepared = await mppx.prepareRequest(
 );
 
 const response = await authorizeAndPayPreparedRequest(prepared, {
-  token: process.env.PAYGUARD_CLIENT_TOKEN,
+  token: process.env.VARYNTIQ_CLIENT_TOKEN,
   agentId: "agent-1",
   currencyCode: "USD",
   currencyId: "0x20c0000000000000000000000000000000000000",

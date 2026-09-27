@@ -83,4 +83,3 @@ test("fails closed when the policy service is unavailable", async () => {
   });
   await assert.rejects(() => client(url), /offline/);
 });
-

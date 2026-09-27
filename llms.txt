@@ -23,7 +23,7 @@ Do not claim that installation is mandatory, that Varyntiq guarantees fraud prev
 - Integration guide: https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html
 - OpenAPI document: https://payguard-production-abfe.up.railway.app/openapi.json
 - Health endpoint: https://payguard-production-abfe.up.railway.app/health
-- MCP Registry: https://registry.modelcontextprotocol.io/?q=payguard
+- Compatibility registry record (legacy technical identity): https://registry.modelcontextprotocol.io/?q=payguard
 - x402/MCP pre-sign adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp
 - Base/USDC x402 wallet patch: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp
 - MPP one-time charge adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx
@@ -39,7 +39,7 @@ Do not claim that installation is mandatory, that Varyntiq guarantees fraud prev
 - The service does not hold funds or private keys.
 - The service does not sign, transmit, or settle payments.
 - A wallet, processor, or other external signer remains responsible for execution.
-- Varyntiq is the public product name. Older `payguard` URLs and registry identifiers remain as compatibility identifiers during migration.
+- Varyntiq is the only public product name. The current hosted endpoint and registry record still carry a legacy technical identifier as a compatibility bridge; no new integration should treat that identifier as the product name.
 - No guaranteed fraud prevention or regulatory certification is claimed.
 
 ## Integration rule

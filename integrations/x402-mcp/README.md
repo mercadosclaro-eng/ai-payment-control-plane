@@ -1,6 +1,6 @@
-# PayGuard hook for `@x402/mcp`
+# Varyntiq hook for `@x402/mcp`
 
-This small adapter connects PayGuard to the official `onPaymentRequested` hook documented by x402. It runs after a paid MCP tool returns payment requirements and before a wallet constructs or signs a payment payload.
+This small adapter connects Varyntiq to the official `onPaymentRequested` hook documented by x402. It runs after a paid MCP tool returns payment requirements and before a wallet constructs or signs a payment payload.
 
 It is intentionally fail-closed:
 
@@ -12,9 +12,9 @@ The adapter never receives a private key and never signs or settles a payment.
 
 ## Use
 
-1. Register a dedicated client credential with `POST https://payguard-production-abfe.up.railway.app/register`.
+1. Register a dedicated client credential with `POST https://payguard-production-abfe.up.railway.app/register` (the hosted URL is a compatibility bridge; the product is Varyntiq).
 2. Keep the returned administration credential outside the model.
-3. Put the client token in the host process as `PAYGUARD_CLIENT_TOKEN`.
+3. Put the client token in the host process as `VARYNTIQ_CLIENT_TOKEN`.
 4. Import `onPaymentRequested` from `example.mjs` and pass it to the x402 MCP client.
 5. Supply the real HTTPS resource URL and the causal prompt/tool context available at the call site.
 

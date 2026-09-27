@@ -1,0 +1,23 @@
+name: Varyntiq public integration checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-integration-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run integration tests
+        run: |
+          node --test integrations/x402-mcp/payguard-hook.test.mjs integrations/mppx/payguard.test.mjs integrations/evaluation/evaluate-live.test.mjs
+          node --experimental-strip-types --input-type=module -e "import('./integrations/x402-wallet-mcp/varyntiq.ts')"

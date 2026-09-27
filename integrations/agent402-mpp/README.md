@@ -12,7 +12,7 @@ No wallet key is sent to the control plane. The integration accepts only `https:
 import { Agent402 } from "agent402-client";
 import { Mppx, tempo, evm } from "mppx/client";
 import { privateKeyToAccount } from "viem/accounts";
-import { createAgent402PayGuardFetch } from "./agent402-payguard.mjs";
+import { createAgent402VaryntiqFetch } from "./agent402-varyntiq.mjs";
 
 const account = privateKeyToAccount(process.env.AGENT_KEY);
 const mppx = Mppx.create({
@@ -20,9 +20,9 @@ const mppx = Mppx.create({
   polyfill: false,
 });
 
-const guardedFetch = createAgent402PayGuardFetch({
+const guardedFetch = createAgent402VaryntiqFetch({
   mppx,
-  token: process.env.PAYGUARD_CLIENT_TOKEN, // dedicated client token, never owner key
+  token: process.env.VARYNTIQ_CLIENT_TOKEN, // dedicated client token, never owner key
   agentId: "research-agent-1",
   currencyCode: "USDC",
   currencyId: process.env.MPP_CURRENCY_ID,  // exact identifier approved by the owner

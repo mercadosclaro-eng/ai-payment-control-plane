@@ -1,6 +1,6 @@
 # Independent live evaluation
 
-This dependency-free Node.js script lets an external integrator verify PayGuard's public control path without receiving engine code, policy thresholds or owner credentials.
+This dependency-free Node.js script lets an external integrator verify Varyntiq's public control path without receiving engine code, policy thresholds or owner credentials.
 
 It checks:
 
@@ -21,7 +21,7 @@ The script keeps both one-time credentials in memory and never prints them. It n
 Use Node.js 18 or newer:
 
 ```sh
-node evaluate-live.mjs --live
+node evaluate-varyntiq.mjs --live
 ```
 
 The explicit `--live` flag is required because a run creates one isolated free evaluation tenant and consumes two of its 100 monthly checks. Do not use production prompts, customer data, wallet details, private keys or other secrets in an evaluation.

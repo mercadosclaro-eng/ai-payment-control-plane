@@ -35,4 +35,3 @@ node --test varyntiq-inflow.test.mjs
 The test pack proves explicit `ALLOW`, `BLOCK`, `REQUIRE_APPROVAL`, invalid input, network failure and mismatched-receipt behavior without creating a wallet or moving money.
 
 This is an independent compatibility example. InFlow has not adopted or endorsed Varyntiq.
-
