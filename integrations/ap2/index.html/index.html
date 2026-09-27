@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Varyntiq · AP2 reconciliation demo</title>
+  <meta name="description" content="Independent no-funds demo for safe AP2 settlement reconciliation.">
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --panel:#121a2d; --line:#263453; --ink:#edf3ff; --muted:#a9b7d0; --ok:#7ee2b8; --accent:#9bb8ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:linear-gradient(160deg,#0b1020 0%,#101a31 100%); color:var(--ink); font:16px/1.6 system-ui,-apple-system,Segoe UI,sans-serif; }
+    main { max-width:860px; margin:0 auto; padding:56px 22px 72px; }
+    .eyebrow { color:var(--ok); font-weight:700; letter-spacing:.08em; text-transform:uppercase; font-size:.78rem; }
+    h1 { font-size:clamp(2rem,5vw,3.7rem); line-height:1.08; margin:.45rem 0 1rem; }
+    h2 { margin-top:2.3rem; font-size:1.35rem; }
+    p { color:var(--muted); max-width:70ch; }
+    .card { background:rgba(18,26,45,.88); border:1px solid var(--line); border-radius:16px; padding:22px; margin-top:22px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; }
+    .pill { border:1px solid var(--line); border-radius:12px; padding:13px; color:var(--ink); }
+    .pill strong { display:block; color:var(--ok); margin-bottom:3px; }
+    code { color:#dbe6ff; background:#0a1020; border:1px solid var(--line); border-radius:6px; padding:.12em .35em; }
+    a { color:var(--accent); }
+    .note { border-left:3px solid var(--ok); padding-left:15px; }
+    footer { color:var(--muted); margin-top:38px; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Varyntiq · independent demo</div>
+    <h1>Settlement must be confirmed before a payment token is consumed.</h1>
+    <p>This small, no-funds example addresses the failure reported in <a href="https://github.com/google-agentic-commerce/AP2/issues/308">AP2 issue #308</a>. It keeps reconciliation explicit: a failed provider call does not become a successful spend.</p>
+    <section class="card">
+      <h2>What the demo proves</h2>
+      <div class="grid">
+        <div class="pill"><strong>ALLOW</strong>Settlement is attempted only after the policy decision.</div>
+        <div class="pill"><strong>FAIL SAFE</strong>An unconfirmed settlement leaves the token available for retry.</div>
+        <div class="pill"><strong>BLOCK</strong>A denied decision never reaches the settlement provider.</div>
+        <div class="pill"><strong>NO REPLAY</strong>A confirmed token cannot be consumed twice.</div>
+      </div>
+    </section>
+    <section class="card">
+      <h2>Boundaries</h2>
+      <p class="note">This is an independent example, not an official AP2 integration. It uses no private keys, customer data, network calls or real funds. It does not claim that a payment succeeded until the settlement provider confirms it.</p>
+      <p>Source: <a href="reconciliation_guard.mjs"><code>reconciliation_guard.mjs</code></a> · Tests: <a href="reconciliation_guard.test.mjs"><code>reconciliation_guard.test.mjs</code></a></p>
+    </section>
+    <footer>Varyntiq public evidence surface · technical review only</footer>
+  </main>
+</body>
+</html>
