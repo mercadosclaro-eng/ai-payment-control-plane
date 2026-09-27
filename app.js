@@ -157,4 +157,3 @@ byId("tamperProof")?.addEventListener("click", async (event) => {
 });
 
 renderCase("allow");
-

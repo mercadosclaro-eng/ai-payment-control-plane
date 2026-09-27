@@ -29,6 +29,7 @@
     <div class="eyebrow">Varyntiq · independent demo</div>
     <h1>Settlement must be confirmed before a payment token is consumed.</h1>
     <p>This small, no-funds example addresses the failure reported in <a href="https://github.com/google-agentic-commerce/AP2/issues/308">AP2 issue #308</a>. It keeps reconciliation explicit: a failed provider call does not become a successful spend.</p>
+
     <section class="card">
       <h2>What the demo proves</h2>
       <div class="grid">
@@ -38,11 +39,13 @@
         <div class="pill"><strong>NO REPLAY</strong>A confirmed token cannot be consumed twice.</div>
       </div>
     </section>
+
     <section class="card">
       <h2>Boundaries</h2>
       <p class="note">This is an independent example, not an official AP2 integration. It uses no private keys, customer data, network calls or real funds. It does not claim that a payment succeeded until the settlement provider confirms it.</p>
       <p>Source: <a href="reconciliation_guard.mjs"><code>reconciliation_guard.mjs</code></a> · Tests: <a href="reconciliation_guard.test.mjs"><code>reconciliation_guard.test.mjs</code></a></p>
     </section>
+
     <footer>Varyntiq public evidence surface · technical review only</footer>
   </main>
 </body>

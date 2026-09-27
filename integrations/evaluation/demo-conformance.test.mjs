@@ -10,4 +10,3 @@ test("conformance proof signs every decision and rejects tampering", () => {
   assert.deepEqual(result.scenarios.map((item) => item.decision), ["ALLOW", "BLOCK", "BLOCK", "BLOCK", "BLOCK"]);
   assert.equal(result.scenarios.every((item) => item.receipt_valid && item.tamper_rejected), true);
 });
-

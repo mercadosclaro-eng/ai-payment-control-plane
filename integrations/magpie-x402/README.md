@@ -9,4 +9,3 @@ Pass the Varyntiq service URL explicitly as `baseUrl`; the adapter has no baked-
 The tests cover an allowed payment, a blocked payment that never reaches the signer, and fail-closed behavior when Varyntiq is unavailable.
 
 This is a local, non-production contribution prepared for review. It is not an official Magpie integration and has not been sent upstream.
-

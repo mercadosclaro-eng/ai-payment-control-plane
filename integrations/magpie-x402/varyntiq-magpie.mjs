@@ -90,4 +90,3 @@ export function createVaryntiqMagpieClient(options) {
     return fetchImpl(url, { ...init, headers });
   };
 }
-

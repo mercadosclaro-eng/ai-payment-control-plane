@@ -41,7 +41,7 @@
           <a class="button primary" href="integration.html">Read the integration guide <span>↗</span></a>
           <a class="button secondary" href="#demo">Run the decision demo</a>
         </div>
-        <p class="working-name"><strong>Varyntiq</strong> is the AI payment control plane. Existing technical endpoints remain compatible during the brand transition.</p>
+        <p class="working-name"><strong>Varyntiq</strong> is the public AI payment control plane. The existing hosted endpoint is retained only as a compatibility bridge while the canonical Varyntiq endpoint is prepared.</p>
       </div>
       <div class="decision-card" aria-label="Example payment decision">
         <div class="terminal-bar"><span></span><span></span><span></span><b>POST /check</b></div>
@@ -57,7 +57,7 @@
           <span class="score">risk 68/100</span>
         </div>
         <div class="reason">NEW_PAYEE · AMOUNT_ANOMALY · OWNER_POLICY</div>
-        <div class="receipt"><span>receipt</span><code>pg_8f31…b90d</code><span>bound &amp; auditable</span></div>
+        <div class="receipt"><span>receipt</span><code>vnt_8f31…b90d</code><span>bound &amp; auditable</span></div>
       </div>
     </section>
 
@@ -141,8 +141,8 @@
         </div>
         <div class="metrics">
           <a href="https://github.com/mercadosclaro-eng/payguard/actions/runs/35972529824"><strong>13</strong><span>automated tests passing</span><small>View external verification ↗</small></a>
-          <a href="https://payguard-production-abfe.up.railway.app/health"><strong>Live</strong><span>HTTPS service</span><small>Check production health ↗</small></a>
-          <a href="https://registry.modelcontextprotocol.io/?q=payguard"><strong>MCP</strong><span>official registry listing</span><small>Find the server ↗</small></a>
+          <a href="https://payguard-production-abfe.up.railway.app/health"><strong>Live</strong><span>Varyntiq HTTPS service</span><small>Check current deployment health ↗</small></a>
+          <a href="https://registry.modelcontextprotocol.io/?q=payguard"><strong>MCP</strong><span>Compatibility registry record</span><small>Open the current technical record ↗</small></a>
           <div><strong>0</strong><span>funds or private keys held</span><small>Authorization only</small></div>
         </div>
         <p class="evidence-note">External verification covers service health, split tenant credentials, a bound BLOCK receipt, MCP access and immediate agent-token rotation. Customer adoption is not claimed.</p>
@@ -155,7 +155,7 @@
         <p class="kicker">INTEGRATE WHERE AUTHORITY CHANGES HANDS</p>
         <h2>One pre-sign check.</h2>
       </div>
-      <div class="code-card"><pre><code>decision = payguard.check(payment_intent)
+      <div class="code-card"><pre><code>decision = varyntiq.check(payment_intent)
 
 if decision.status != "ALLOW":
     stop_or_request_approval(decision)
@@ -186,10 +186,9 @@ wallet.sign(payment_intent, decision.receipt)</code></pre></div>
 
   <footer class="shell">
     <div><strong>Varyntiq</strong><p>AI payment control infrastructure for autonomous commerce.</p></div>
-    <div class="footer-links"><a href="integration.html">Integration</a><a href="https://payguard-production-abfe.up.railway.app/openapi.json">API</a><a href="https://registry.modelcontextprotocol.io/?q=payguard">MCP Registry</a><a href="llms.txt">LLM summary</a></div>
+    <div class="footer-links"><a href="integration.html">Integration</a><a href="https://payguard-production-abfe.up.railway.app/openapi.json">Varyntiq API</a><a href="https://registry.modelcontextprotocol.io/?q=payguard">Compatibility registry record</a><a href="llms.txt">LLM summary</a></div>
     <p class="legal">Varyntiq evaluates payment intent; it does not custody, sign, transmit or settle funds. No claim of guaranteed fraud prevention or regulatory certification.</p>
   </footer>
   <script src="app.js"></script>
 </body>
 </html>
-

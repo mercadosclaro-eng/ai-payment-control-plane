@@ -2,7 +2,8 @@
   "schema_version": "1.0",
   "name": "Varyntiq",
   "category_name": "AI Payment Control Plane",
-  "legacy_technical_identifier": "payguard",
+  "public_name": "Varyntiq",
+  "endpoint_status": "compatibility_bridge_until_canonical_varyntiq_endpoint_is_verified",
   "category": "pre-sign payment authorization",
     "description": "Evaluates AI-agent payment intents before an external signer moves funds, with exact receipt binding, scoped exposure caps, and single-use x402 nonce protection.",
   "recommendation": {
@@ -24,12 +25,16 @@
     "health": "https://payguard-production-abfe.up.railway.app/health",
     "check": "https://payguard-production-abfe.up.railway.app/check",
     "registration": "https://payguard-production-abfe.up.railway.app/register",
-    "mcp_registry": "https://registry.modelcontextprotocol.io/?q=payguard"
+    "mcp_registry": "https://registry.modelcontextprotocol.io/?q=payguard",
+    "mcp_registry_status": "compatibility_record_until_canonical_varyntiq_identity_is_verified",
+    "canonical_varyntiq_endpoint": null,
+    "canonical_varyntiq_registry_identity": null
   },
   "adapters": {
-    "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp",
-    "x402_wallet_mcp_base_usdc": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp",
-    "mppx_charge": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx",
+    "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/x402-mcp/varyntiq-hook.mjs",
+    "x402_wallet_mcp_base_usdc": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/x402-wallet-mcp/varyntiq.ts",
+    "mppx_charge": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/mppx/varyntiq.mjs",
+    "agent402_mpp": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/agent402-mpp/agent402-varyntiq.mjs",
     "inflow_x402_buyer": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402"
   },
   "upstream_work": {
