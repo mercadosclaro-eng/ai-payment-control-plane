@@ -24,4 +24,5 @@ jobs:
         with:
           node-version: 24
       - name: Run no-funds Ardaro fixture
-        run: node --test integrations/ardaro-mcp/varyntiq-ardaro.test.mjs integrations/ardaro-mcp/ardaro-mapping.fixture.test.mjs
+        run: node --test integrations/ardaro-mcp/varyntiq-ardaro.test.mjs integrations/ardaro-mcp/ardaro-mapping.fixture.test.mjs integrations/ardaro-mcp/ardaro-advisory.test.mjs
+

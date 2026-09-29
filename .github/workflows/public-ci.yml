@@ -19,5 +19,6 @@ jobs:
           node-version: '22'
       - name: Run integration tests
         run: |
-          node --test integrations/x402-mcp/payguard-hook.test.mjs integrations/mppx/payguard.test.mjs integrations/evaluation/evaluate-live.test.mjs
+          node --test integrations/x402-mcp/varyntiq-hook.test.mjs integrations/mppx/varyntiq.test.mjs integrations/evaluation/evaluate-varyntiq.test.mjs
           node --experimental-strip-types --input-type=module -e "import('./integrations/x402-wallet-mcp/varyntiq.ts')"
+
