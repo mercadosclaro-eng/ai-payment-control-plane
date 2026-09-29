@@ -6,7 +6,7 @@
  * happen. Keys, funds and settlement remain outside this module.
  */
 
-const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL || 'https://varyntiq-production-production.up.railway.app';
+const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL;
 const DEFAULT_CURRENCY_SCALES = Object.freeze({
   USD: 2,
   EUR: 2,
@@ -216,3 +216,4 @@ export function createArdaroPreSignGuard(options) {
     }
   };
 }
+
