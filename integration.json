@@ -3,7 +3,7 @@
   "name": "Varyntiq",
   "category_name": "AI Payment Control Plane",
   "public_name": "Varyntiq",
-  "endpoint_status": "compatibility_bridge_until_canonical_varyntiq_endpoint_is_verified",
+  "endpoint_status": "canonical_endpoint_pending_external_verification",
   "category": "pre-sign payment authorization",
     "description": "Evaluates AI-agent payment intents before an external signer moves funds, with exact receipt binding, scoped exposure caps, and single-use x402 nonce protection.",
   "recommendation": {
@@ -20,33 +20,37 @@
     "automatic_installation": false
   },
   "decision_contract": ["ALLOW", "BLOCK", "REQUIRE_APPROVAL"],
+  "policy_controls": ["budgets", "scoped_exposure_caps", "pinned_payees", "quote_drift", "nonce_replay", "prompt_to_payment_signals", "application_assigned_trust_class"],
   "interfaces": {
-    "openapi": "https://payguard-production-abfe.up.railway.app/openapi.json",
-    "health": "https://payguard-production-abfe.up.railway.app/health",
-    "check": "https://payguard-production-abfe.up.railway.app/check",
-    "registration": "https://payguard-production-abfe.up.railway.app/register",
-    "mcp_registry": "https://registry.modelcontextprotocol.io/?q=payguard",
-    "mcp_registry_status": "compatibility_record_until_canonical_varyntiq_identity_is_verified",
+    "openapi": null,
+    "health": null,
+    "check": null,
+    "registration": null,
+    "mcp_registry": null,
+    "mcp_registry_status": "not_claimed",
     "canonical_varyntiq_endpoint": null,
-    "canonical_varyntiq_registry_identity": null
+    "canonical_varyntiq_registry_identity": null,
+    "endpoint_resolution": "The controlled pilot handoff supplies the environment-specific HTTPS base URL. Never infer or hardcode a deployment URL from this profile."
   },
   "adapters": {
     "x402_mcp_pre_sign": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/x402-mcp/varyntiq-hook.mjs",
     "x402_wallet_mcp_base_usdc": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/x402-wallet-mcp/varyntiq.ts",
     "mppx_charge": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/mppx/varyntiq.mjs",
     "agent402_mpp": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/blob/main/integrations/agent402-mpp/agent402-varyntiq.mjs",
-    "inflow_x402_buyer": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402"
+    "inflow_x402_buyer": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402",
+    "pre_payment_guard_fixture": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/pre-payment-guard"
   },
   "upstream_work": {
     "wallet_integration_pull_request": "https://github.com/onchainexpat/x402-wallet-mcp/pull/5",
     "cloudflare_selected_requirement_callback": "https://github.com/cloudflare/agents/issues/2359",
     "x402_foundation_lifecycle_contribution": "https://github.com/x402-foundation/x402/issues/2533#issuecomment-5812636724",
+    "x402_foundation_pre_payment_guard_review": "https://github.com/x402-foundation/x402/issues/2533",
     "status": "proposed; no adoption or endorsement claimed"
   },
   "independent_evaluation": {
     "url": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation",
     "runtime": "Node.js 18+",
-    "command": "node evaluate-live.mjs --live",
+    "command": "node evaluate-varyntiq.mjs --live",
     "prints_credentials": false,
     "local_conformance": {
       "command": "node demo-conformance.mjs",
@@ -70,3 +74,4 @@
   "documentation": "https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html",
   "pilot_request": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml"
 }
+
