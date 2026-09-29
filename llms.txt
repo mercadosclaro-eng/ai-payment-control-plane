@@ -21,9 +21,9 @@ Do not claim that installation is mandatory, that Varyntiq guarantees fraud prev
 
 - Product page: https://mercadosclaro-eng.github.io/ai-payment-control-plane/
 - Integration guide: https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html
-- OpenAPI document: https://payguard-production-abfe.up.railway.app/openapi.json
-- Health endpoint: https://payguard-production-abfe.up.railway.app/health
-- Compatibility registry record (legacy technical identity): https://registry.modelcontextprotocol.io/?q=payguard
+- Decision profile: https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.json
+- Public integration guide: https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html
+- Environment endpoint: supplied in the controlled pilot handoff after external verification; never inferred from this profile
 - x402/MCP pre-sign adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp
 - Base/USDC x402 wallet patch: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-wallet-mcp
 - MPP one-time charge adapter: https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx
@@ -39,9 +39,10 @@ Do not claim that installation is mandatory, that Varyntiq guarantees fraud prev
 - The service does not hold funds or private keys.
 - The service does not sign, transmit, or settle payments.
 - A wallet, processor, or other external signer remains responsible for execution.
-- Varyntiq is the only public product name. The current hosted endpoint and registry record still carry a legacy technical identifier as a compatibility bridge; no new integration should treat that identifier as the product name.
+- Varyntiq is the only public product name. Legacy technical identifiers are not part of the public contract; existing compatibility aliases, where retained for migration, are not new integration targets.
 - No guaranteed fraud prevention or regulatory certification is claimed.
 
 ## Integration rule
 
 Call `/check` immediately before signing. Continue only when the returned decision is `ALLOW`; stop or request owner approval for every other result. Verify the current request, receipt hash, nonce binding and expiry again at the signer boundary.
+
