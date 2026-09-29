@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { pathToFileURL } from "node:url";
 
-const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL ?? "https://payguard-production-abfe.up.railway.app";
+const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL;
 
 function requireValue(value, label) {
   if (!value) throw new Error(`missing ${label}`);
@@ -44,6 +44,7 @@ export async function evaluateVaryntiq({
   evaluationId = randomUUID(),
 } = {}) {
   if (typeof fetchImpl !== "function") throw new Error("fetch is unavailable; use Node.js 18 or newer");
+  requireValue(baseUrl, "baseUrl (pass it explicitly or set VARYNTIQ_BASE_URL)");
   const base = baseUrl.replace(/\/$/, "");
   const checks = [];
 
@@ -151,3 +152,4 @@ async function main() {
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
+
