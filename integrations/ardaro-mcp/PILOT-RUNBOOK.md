@@ -11,10 +11,11 @@ Use Node 24 or newer:
 
 ~~~bash
 node --test integrations/ardaro-mcp/varyntiq-ardaro.test.mjs
+node --test integrations/ardaro-mcp/ardaro-mapping.fixture.test.mjs
 node integrations/ardaro-mcp/varyntiq-ardaro-demo.mjs
 ~~~
 
-The expected result is 9/9 tests passing. The demo must report:
+The expected result is 16/16 tests passing across the two fixtures. The demo must report:
 
 ~~~text
 fundsMoved: false
@@ -32,6 +33,10 @@ the complete payment intent, including:
 - payee, resource URL, network and asset;
 - a fresh, single-use nonce; and
 - the limits supplied by the operator.
+
+The mapping must include `proposed_cost` with its whole-currency decimal
+amount, currency, scale and original minor units. The advisory `policy.history`
+and the separate `analysis_fee` object must remain distinct from the spend.
 
 Only an ALLOW receipt whose intent_id matches the request and whose expires_at
 is still in the future may reach the signer. Any timeout, transport failure,
@@ -60,6 +65,9 @@ The pilot is accepted when the operator can reproduce all of these outcomes:
 - reused nonce: first request may allow, replay is BLOCK;
 - expired or missing receipt expiry: BLOCK;
 - delayed response body beyond the deadline: BLOCK;
+- synchronous observer work beyond the deadline: BLOCK before signing;
+- expiry during an observer callback: BLOCK before signing;
+- observer callbacks cannot mutate the canonical intent or receipt seen by the signer;
 - no private key or funds is ever present in Varyntiq logs; and
 - the complete canary finishes with fundsMoved: false.
 

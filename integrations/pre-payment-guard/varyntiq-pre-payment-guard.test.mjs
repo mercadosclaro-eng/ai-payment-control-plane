@@ -76,3 +76,70 @@ test("receipt records the exact request digest and reason codes", async () => {
   assert.match(result.request_digest, /^[a-f0-9]{64}$/);
 });
 
+test("the signer receives the same detached terms that were evaluated", async () => {
+  const original = {
+    paymentRequired: structuredClone(paymentRequired),
+    selectedRequirements: structuredClone(selectedRequirements),
+    context: structuredClone(context),
+  };
+  let policyInput;
+  let signerInput;
+  const guard = createVaryntiqPrePaymentGuard({
+    policy: async (input) => {
+      policyInput = input;
+      // A policy plugin must not be able to rewrite the canonical snapshot.
+      input.payment_required.accepts[0].payTo = "0xattacker";
+      input.selected_requirements.payTo = "0xattacker";
+      input.context.purpose = "tampered";
+      return { decision: "ALLOW" };
+    },
+  });
+
+  const result = await guard.beforeSign({
+    ...original,
+    sign: (input) => {
+      signerInput = input;
+      return { signed: true };
+    },
+  });
+
+  assert.equal(result.sign_called, true);
+  assert.equal(policyInput.selected_requirements.payTo, "0xattacker");
+  assert.equal(signerInput.selectedRequirements.payTo, original.selectedRequirements.payTo);
+  assert.equal(signerInput.paymentRequired.accepts[0].payTo, original.paymentRequired.accepts[0].payTo);
+  assert.equal(signerInput.context.purpose, original.context.purpose);
+  assert.equal(signerInput.requestDigest, result.request_digest);
+});
+
+test("caller mutations while policy is pending cannot alter the signed terms", async () => {
+  const mutablePaymentRequired = structuredClone(paymentRequired);
+  const mutableSelectedRequirements = structuredClone(selectedRequirements);
+  const mutableContext = structuredClone(context);
+  let releasePolicy;
+  const policyPending = new Promise((resolve) => { releasePolicy = resolve; });
+  let signerInput;
+  const guard = createVaryntiqPrePaymentGuard({
+    policy: async () => {
+      await policyPending;
+      return { decision: "ALLOW" };
+    },
+  });
+
+  const operation = guard.beforeSign({
+    paymentRequired: mutablePaymentRequired,
+    selectedRequirements: mutableSelectedRequirements,
+    context: mutableContext,
+    sign: (input) => { signerInput = input; return { signed: true }; },
+  });
+  mutablePaymentRequired.accepts[0].amount = "999999";
+  mutableSelectedRequirements.amount = "999999";
+  mutableContext.purpose = "tampered";
+  releasePolicy();
+  const result = await operation;
+
+  assert.equal(result.sign_called, true);
+  assert.equal(signerInput.paymentRequired.accepts[0].amount, "10");
+  assert.equal(signerInput.selectedRequirements.amount, "10");
+  assert.equal(signerInput.context.purpose, "weather_lookup");
+});
+

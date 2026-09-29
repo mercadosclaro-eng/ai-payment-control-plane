@@ -28,11 +28,18 @@ function normalizedInput({ paymentRequired, selectedRequirements, resource, cont
   requireObject(selectedRequirements, "selectedRequirements");
   requireObject(context, "context");
 
+  // Take every value from one detached snapshot. The caller and the policy
+  // callback may both mutate their own objects while evaluation is pending;
+  // neither mutation may change what was approved or what reaches the signer.
+  const detachedPaymentRequired = clone(paymentRequired);
+  const detachedSelectedRequirements = clone(selectedRequirements);
+  const detachedResource = clone(resource ?? detachedPaymentRequired.resource ?? null);
+  const detachedContext = clone(context);
   const input = {
-    payment_required: clone(paymentRequired),
-    selected_requirements: clone(selectedRequirements),
-    resource: resource ?? paymentRequired.resource ?? null,
-    context: clone(context),
+    payment_required: detachedPaymentRequired,
+    selected_requirements: detachedSelectedRequirements,
+    resource: detachedResource,
+    context: detachedContext,
   };
   return { input, request_digest: digest(input) };
 }
@@ -60,17 +67,13 @@ function blocked(reason, requestDigest = null) {
 export function createVaryntiqPrePaymentGuard({ policy }) {
   if (typeof policy !== "function") throw new TypeError("policy must be a function");
 
-  async function evaluate(input) {
-    let prepared;
-    try {
-      prepared = normalizedInput(input);
-    } catch {
-      return blocked("invalid_payment_input");
-    }
-
+  async function evaluatePrepared(prepared) {
     let result;
     try {
-      result = await policy(prepared.input);
+      // The policy receives a second detached copy. This keeps the canonical
+      // snapshot retained by the guard unchanged even if a policy plugin
+      // mutates its argument before returning ALLOW.
+      result = await policy(clone(prepared.input));
     } catch {
       return blocked("policy_failure", prepared.request_digest);
     }
@@ -86,8 +89,27 @@ export function createVaryntiqPrePaymentGuard({ policy }) {
     };
   }
 
+  async function evaluate(input) {
+    let prepared;
+    try {
+      prepared = normalizedInput(input);
+    } catch {
+      return blocked("invalid_payment_input");
+    }
+    return evaluatePrepared(prepared);
+  }
+
   async function beforeSign({ approvedRequestDigest, sign, ...input }) {
-    const result = await evaluate(input);
+    let prepared;
+    try {
+      // Normalize exactly once. The same detached terms are used for the
+      // policy digest and for the signer below, so no mutable caller object
+      // can create a policy/signing mismatch.
+      prepared = normalizedInput(input);
+    } catch {
+      return blocked("invalid_payment_input");
+    }
+    const result = await evaluatePrepared(prepared);
     if (approvedRequestDigest && approvedRequestDigest !== result.request_digest) {
       return blocked("payment_requirements_changed", result.request_digest);
     }
@@ -95,9 +117,10 @@ export function createVaryntiqPrePaymentGuard({ policy }) {
     if (typeof sign !== "function") return blocked("signer_missing", result.request_digest);
 
     const signed = await sign({
-      paymentRequired: input.paymentRequired,
-      selectedRequirements: input.selectedRequirements,
-      resource: input.resource,
+      paymentRequired: clone(prepared.input.payment_required),
+      selectedRequirements: clone(prepared.input.selected_requirements),
+      resource: clone(prepared.input.resource),
+      context: clone(prepared.input.context),
       requestDigest: result.request_digest,
     });
     return { ...result, signed, sign_called: true };

@@ -17,6 +17,11 @@ function reply(decision, body, extra = {}) {
   return { ok: true, async json() { return { intent_id: body.intent_id, decision, receipt_id: 'fixture-receipt', expires_at: new Date(Date.now() + 60000).toISOString(), ...extra }; } };
 }
 
+function busyWait(ms) {
+  const end = Date.now() + ms;
+  while (Date.now() < end) {}
+}
+
 function guard(decision, calls) {
   return createArdaroPreSignGuard({
     token: 'fixture-token',
@@ -40,6 +45,15 @@ test('only ALLOW reaches the signer', async () => {
   assert.equal(calls[0].body.x402.nonce, request.nonce);
   assert.equal(calls[0].body.x402.network, request.network);
   assert.equal(calls[0].body.x402.resource.url, request.resourceUrl);
+  assert.equal(calls[0].body.proposed_cost.amount, '0.001000');
+  assert.equal(calls[0].body.proposed_cost.currency, 'USDC');
+  assert.equal(calls[0].body.proposed_cost.scale, 6);
+  assert.equal(calls[0].body.proposed_cost.minor_units, '1000');
+  assert.equal(calls[0].body.policy.mode, 'pre_sign');
+  assert.equal(calls[0].body.policy.decision_scope, 'advisory');
+  assert.equal(calls[0].body.policy.requires_review, true);
+  assert.equal(calls[0].body.analysis_fee.included_in_proposed_cost, false);
+  assert.equal(calls[0].body.analysis_fee.settlement, 'separate');
 });
 
 test('BLOCK and REQUIRE_APPROVAL never sign', async () => {
@@ -204,4 +218,52 @@ test('nonce reuse and recipient/resource/network mismatches fail closed', async 
   ]) {
     await assert.rejects(guarded({ request: { ...request, nonce: crypto.randomUUID(), ...changed }, sign: () => ({ signed: true }) }), /not an unexpired ALLOW/);
   }
+});
+
+test('synchronous observer work cannot exceed the deadline before signing', async () => {
+  let signed = false;
+  const guarded = createArdaroPreSignGuard({
+    token: 'fixture-token', agentId: 'ardaro-fixture-agent', baseUrl: 'https://varyntiq.example', timeoutMs: 100,
+    onDecision: () => busyWait(180),
+    fetchImpl: async (_url, init) => {
+      const body = JSON.parse(init.body);
+      return reply('ALLOW', body);
+    },
+  });
+  await assert.rejects(guarded({ request, sign: () => { signed = true; } }), /timed out before signing/);
+  assert.equal(signed, false);
+});
+
+test('expiry is rechecked after the observer callback', async () => {
+  let signed = false;
+  const guarded = createArdaroPreSignGuard({
+    token: 'fixture-token', agentId: 'ardaro-fixture-agent', baseUrl: 'https://varyntiq.example', timeoutMs: 500,
+    onDecision: () => busyWait(60),
+    fetchImpl: async (_url, init) => {
+      const body = JSON.parse(init.body);
+      return reply('ALLOW', body, { expires_at: new Date(Date.now() + 20).toISOString() });
+    },
+  });
+  await assert.rejects(guarded({ request, sign: () => { signed = true; } }), /expired before signing/);
+  assert.equal(signed, false);
+});
+
+test('observer callbacks cannot mutate the canonical approval state', async () => {
+  let signedInput;
+  const guarded = createArdaroPreSignGuard({
+    token: 'fixture-token', agentId: 'ardaro-fixture-agent', baseUrl: 'https://varyntiq.example',
+    onDecision: (receipt, intent) => {
+      receipt.decision = 'BLOCK';
+      intent.amount_minor = 1;
+      intent.x402.amount = '1';
+    },
+    fetchImpl: async (_url, init) => {
+      const body = JSON.parse(init.body);
+      return reply('ALLOW', body);
+    },
+  });
+  await guarded({ request, sign: (input) => { signedInput = input; return { signed: true }; } });
+  assert.equal(signedInput.receipt.decision, 'ALLOW');
+  assert.equal(signedInput.intent.amount_minor, 1000);
+  assert.equal(signedInput.intent.x402.amount, '1000');
 });
