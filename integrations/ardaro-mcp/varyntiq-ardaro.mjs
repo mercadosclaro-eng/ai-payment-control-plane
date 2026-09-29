@@ -21,7 +21,7 @@ function httpUrl(value, name) {
 
 function amountMinor(value) {
   const normalized = text(String(value == null ? '' : value), 'amountMinor');
-  if (!/^\\d+$/.test(normalized) || !Number.isSafeInteger(Number(normalized)) || Number(normalized) <= 0) {
+  if (!/^\d+$/.test(normalized) || !Number.isSafeInteger(Number(normalized)) || Number(normalized) <= 0) {
     throw new TypeError('amountMinor must be positive integer minor units');
   }
   return Number(normalized);
@@ -40,7 +40,7 @@ export function createArdaroPreSignGuard(options) {
   if (!options || typeof options !== 'object') throw new TypeError('options are required');
   const token = text(options.token, 'token');
   const agentId = text(options.agentId, 'agentId');
-  const baseUrl = httpUrl(options.baseUrl || DEFAULT_BASE_URL, 'baseUrl').replace(/\\/$/, '');
+  const baseUrl = httpUrl(options.baseUrl || DEFAULT_BASE_URL, 'baseUrl').replace(/\/$/, '');
   const timeoutMs = options.timeoutMs == null ? 2500 : options.timeoutMs;
   if (!Number.isInteger(timeoutMs) || timeoutMs < 100 || timeoutMs > 30000) throw new TypeError('timeoutMs must be 100..30000');
   const fetchImpl = options.fetchImpl || globalThis.fetch;
