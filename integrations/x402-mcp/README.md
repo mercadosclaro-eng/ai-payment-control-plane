@@ -12,7 +12,7 @@ The adapter never receives a private key and never signs or settles a payment.
 
 ## Use
 
-1. Register a dedicated client credential with `POST https://payguard-production-abfe.up.railway.app/register` (the hosted URL is a compatibility bridge; the product is Varyntiq).
+1. Register a dedicated client credential with the environment-specific Varyntiq `/register` endpoint supplied in the pilot handoff.
 2. Keep the returned administration credential outside the model.
 3. Put the client token in the host process as `VARYNTIQ_CLIENT_TOKEN`.
 4. Import `onPaymentRequested` from `example.mjs` and pass it to the x402 MCP client.
@@ -23,7 +23,7 @@ Do not send credentials, private prompts, customer data or wallet material as co
 ## Test
 
 ```sh
-node --test payguard-hook.test.mjs
+node --test varyntiq-hook.test.mjs
 ```
 
 The tests cover ALLOW, BLOCK, REQUIRE_APPROVAL, malformed input, a mismatched receipt, network failure and timeout behavior.
@@ -31,6 +31,7 @@ The tests cover ALLOW, BLOCK, REQUIRE_APPROVAL, malformed input, a mismatched re
 ## Public references
 
 - Integration guide: https://mercadosclaro-eng.github.io/ai-payment-control-plane/integration.html
-- OpenAPI: https://payguard-production-abfe.up.railway.app/openapi.json
+- Decision profile: `../../integration.json`
 - Official x402 MCP guide: https://github.com/x402-foundation/x402/blob/main/docs/guides/mcp-server-with-x402.md
+
 
