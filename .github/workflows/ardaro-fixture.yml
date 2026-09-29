@@ -1,0 +1,27 @@
+name: Ardaro fixture
+
+on:
+  push:
+    paths:
+      - "integrations/ardaro-mcp/**"
+      - ".github/workflows/ardaro-fixture.yml"
+  pull_request:
+    paths:
+      - "integrations/ardaro-mcp/**"
+      - ".github/workflows/ardaro-fixture.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Run no-funds Ardaro fixture
+        run: node --test integrations/ardaro-mcp/varyntiq-ardaro.test.mjs
