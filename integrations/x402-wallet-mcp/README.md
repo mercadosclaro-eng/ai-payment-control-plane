@@ -18,8 +18,8 @@ The current adapter does not claim causal prompt-injection protection because th
 ## Files
 
 - `varyntiq.ts`: canonical dependency-free, fail-closed pre-sign gate.
-- `payguard.ts`: compatibility filename for existing consumers.
-- `payguard.test.ts`: receipt-binding, refusal, network-failure and timeout tests.
+- `varyntiq-compat.ts`: migration entry point for existing consumers.
+- `varyntiq.test.ts`: receipt-binding, refusal, network-failure and timeout tests.
 - `negotiator.patch`: minimal upstream wiring plus environment variables.
 
 ## Test
@@ -27,8 +27,9 @@ The current adapter does not claim causal prompt-injection protection because th
 With Node.js 22 or newer:
 
 ```sh
-node --test payguard.test.ts
+node --test varyntiq.test.ts
 ```
 
 No live service, wallet, key or payment is used by the tests.
+
 
