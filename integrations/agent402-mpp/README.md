@@ -49,8 +49,9 @@ Keep Agent402's native caps enabled. The control plane supplies the separate con
 ## Verification
 
 ```text
-node --test agent402-payguard.test.mjs
+node --test agent402-varyntiq.test.mjs
 ```
 
 The live URL `https://agent402.tools/api/uuid` was also probed without a wallet and returned `402 Payment Required`. No payment was attempted during validation. Agent402 has not endorsed or adopted this reference integration.
+
 
