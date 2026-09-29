@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 
-const DEFAULT_URL = "https://payguard-production-abfe.up.railway.app";
+const DEFAULT_URL = undefined;
 
 export interface X402AcceptEntry {
   scheme: "exact" | "escrow";
@@ -47,6 +47,7 @@ export function createVaryntiqPreSignGate(options: VaryntiqGateOptions) {
     intentId = randomUUID,
   } = options;
   if (!token) throw new Error("Varyntiq client token is required");
+  if (!baseUrl) throw new Error("Varyntiq baseUrl or VARYNTIQ_BASE_URL is required");
   if (typeof fetchImpl !== "function") throw new Error("fetch is unavailable");
 
   return async function authorizeBeforeSigning(input: PreSignIntent): Promise<GateResult> {
@@ -131,4 +132,5 @@ export function createVaryntiqPreSignGate(options: VaryntiqGateOptions) {
     }
   };
 }
+
 
