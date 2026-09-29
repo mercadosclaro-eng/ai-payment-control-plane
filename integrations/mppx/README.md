@@ -42,9 +42,10 @@ The owner must configure `currencyCode` and its exact MPP `currencyId`. The adap
 ## Verification
 
 ```text
-node --test payguard.test.mjs
+node --test varyntiq.test.mjs
 ```
 
 The adapter also passed a separate runtime test against the official npm package `mppx@0.11.0`: the published `prepareRequest()` path created no paid retry before `ALLOW`, and none for `BLOCK` or `REQUIRE_APPROVAL`.
 
 Compatibility is limited to the tested one-time charge flow. No session, subscription, endorsement or standards status is claimed.
+
