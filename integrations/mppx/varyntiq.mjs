@@ -6,7 +6,7 @@
  * payment key and calls `payment.pay()` only after validating an ALLOW receipt.
  */
 
-const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL ?? "https://payguard-production-abfe.up.railway.app";
+const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL;
 
 function requiredText(value, name) {
   if (typeof value !== "string" || !value.trim()) throw new TypeError(`${name} is required`);
@@ -202,3 +202,4 @@ export async function authorizeAndPayPreparedRequest(prepared, options) {
 
   return prepared.payment.pay();
 }
+
