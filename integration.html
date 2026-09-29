@@ -22,7 +22,8 @@
         <div class="eyebrow"><span class="pulse"></span> HTTPS API · MCP tool · no custody</div>
         <h1>Put one decision<br><em>before every signature.</em></h1>
         <p class="lead">The agent proposes a payment. The control plane evaluates it. Your existing wallet or processor remains the only component that can move funds. x402 requests also bind a one-time nonce before signing.</p>
-        <div class="actions"><a class="button primary" href="https://payguard-production-abfe.up.railway.app/openapi.json">Varyntiq API specification <span>↗</span></a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation">Run independent evaluation</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402">InFlow x402 adapter</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp">x402/MCP adapter</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx">MPP adapter</a></div>
+        <p class="working-name">The public profile describes the stable contract. A pilot handoff supplies the environment-specific HTTPS base URL and credentials; this page never embeds or invents a deployment endpoint.</p>
+        <div class="actions"><a class="button primary" href="integration.json">Varyntiq decision profile <span>↗</span></a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/evaluation">Run independent evaluation</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402">InFlow x402 adapter</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/x402-mcp">x402/MCP adapter</a><a class="button secondary" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx">MPP adapter</a></div>
       </div>
       <div class="decision-card" aria-label="Integration sequence">
         <div class="terminal-bar"><span></span><span></span><span></span><b>pre-sign sequence</b></div>
@@ -75,7 +76,7 @@ receipts: 5
 tamper detection: PASS
 funds moved: false
 
-node evaluate-live.mjs --live
+node evaluate-varyntiq.mjs --live
 
 result: PASS
 baseline: ALLOW | REQUIRE_APPROVAL
@@ -91,12 +92,14 @@ credentials printed: no</code></pre></div>
         <article class="feature"><span class="number">03</span><h3>x402 lifecycle rules</h3><p>Host lifecycle and fail-closed invariants contributed to the Foundation's pre-payment-guard discussion.</p><a href="https://github.com/x402-foundation/x402/issues/2533#issuecomment-5812636724">Review contribution ↗</a></article>
         <article class="feature"><span class="number">04</span><h3>Machine Payments Protocol</h3><p>A one-time charge adapter tested against the official mppx 0.11.0 prepare-and-pay runtime.</p><a href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/mppx">Open MPP adapter ↗</a></article>
         <article class="feature"><span class="number">05</span><h3>InFlow x402 buyer</h3><p>A fail-closed hook for InFlow's corrected pre-sign managed-payment boundary, with network-free tests.</p><a href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/inflow-x402">Open InFlow adapter ↗</a></article>
+        <article class="feature"><span class="number">06</span><h3>Selected-requirement guard</h3><p>A public no-funds fixture that binds the decision to the exact PaymentRequirements entry selected immediately before signing.</p><a href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations/pre-payment-guard">Open guard fixture ↗</a></article>
       </div>
     </section>
     <section class="section pilot">
       <div class="shell pilot-inner"><div><p class="kicker">CONTROLLED PILOT</p><h2>Integrate one real payment path.</h2><p>Public qualification contains no secrets. Architecture, credentials and customer data stay out of the public request.</p></div><div class="pilot-card"><span class="pilot-label">Pilot entry</span><div class="price"><span>from</span><strong>€2,500</strong></div><a class="button primary full" href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/issues/new?template=pilot-request.yml">Request a controlled pilot <span>↗</span></a></div></div>
     </section>
   </main>
-  <footer class="shell"><div><strong>Varyntiq</strong><p>AI payment control infrastructure for autonomous commerce.</p></div><div class="footer-links"><a href="./">Product</a><a href="llms.txt">LLM summary</a><a href="integration.json">Integration profile</a></div><p class="legal">The service evaluates payment intent; it does not custody, sign, transmit or settle funds. No guaranteed fraud prevention or regulatory certification is claimed.</p></footer>
+  <footer class="shell"><div><strong>Varyntiq</strong><p>AI payment control infrastructure for autonomous commerce.</p></div><div class="footer-links"><a href="./">Product</a><a href="llms.txt">LLM summary</a><a href="integration.json">Integration profile</a><a href="PUBLIC_SECURITY_MATRIX.md">Security matrix</a></div><p class="legal">The service evaluates payment intent; it does not custody, sign, transmit or settle funds. No guaranteed fraud prevention or regulatory certification is claimed.</p></footer>
 </body>
 </html>
+
