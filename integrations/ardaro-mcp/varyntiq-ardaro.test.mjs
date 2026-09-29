@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { performance } from 'node:perf_hooks';
 import { createArdaroPreSignGuard } from './varyntiq-ardaro.mjs';
 
 const request = {
@@ -234,6 +235,30 @@ test('synchronous observer work cannot exceed the deadline before signing', asyn
   assert.equal(signed, false);
 });
 
+test('backward wall-clock adjustment cannot bypass the monotonic deadline', async () => {
+  const realDateNow = Date.now;
+  const wallClockBefore = realDateNow();
+  let signed = false;
+  const guarded = createArdaroPreSignGuard({
+    token: 'fixture-token', agentId: 'ardaro-fixture-agent', baseUrl: 'https://varyntiq.example', timeoutMs: 100,
+    onDecision: () => {
+      Date.now = () => wallClockBefore - 60_000;
+      const started = performance.now();
+      while (performance.now() - started < 180) {}
+    },
+    fetchImpl: async (_url, init) => {
+      const body = JSON.parse(init.body);
+      return reply('ALLOW', body);
+    },
+  });
+  try {
+    await assert.rejects(guarded({ request, sign: () => { signed = true; } }), /timed out before signing/);
+    assert.equal(signed, false);
+  } finally {
+    Date.now = realDateNow;
+  }
+});
+
 test('expiry is rechecked after the observer callback', async () => {
   let signed = false;
   const guarded = createArdaroPreSignGuard({
@@ -267,3 +292,4 @@ test('observer callbacks cannot mutate the canonical approval state', async () =
   assert.equal(signedInput.intent.amount_minor, 1000);
   assert.equal(signedInput.intent.x402.amount, '1000');
 });
+

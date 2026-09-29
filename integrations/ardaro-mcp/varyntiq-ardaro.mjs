@@ -6,6 +6,8 @@
  * happen. Keys, funds and settlement remain outside this module.
  */
 
+import { performance } from 'node:perf_hooks';
+
 const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL;
 const DEFAULT_CURRENCY_SCALES = Object.freeze({
   USD: 2,
@@ -175,7 +177,10 @@ export function createArdaroPreSignGuard(options) {
     const intent = mapArdaroRequestToIntent(request, { agentId });
 
     const controller = new AbortController();
-    const startedAt = Date.now();
+    // Elapsed time must not depend on wall-clock adjustments. Receipt expiry
+    // below intentionally continues to use Date.now(), because expiry is an
+    // absolute timestamp supplied by the policy service.
+    const startedAt = performance.now();
     const deadline = startedAt + timeoutMs;
     let timer;
     const operation = (async function () {
@@ -206,7 +211,7 @@ export function createArdaroPreSignGuard(options) {
       // Observer callbacks are informational only. Give them detached copies so
       // they cannot mutate the canonical approval state used for signing.
       if (options.onDecision) options.onDecision(clone(receipt), clone(intent));
-      if (Date.now() >= deadline) throw new Error('Varyntiq decision timed out before signing');
+      if (performance.now() >= deadline) throw new Error('Varyntiq decision timed out before signing');
       if (!Number.isFinite(parsedExpiry) || parsedExpiry <= Date.now()) {
         throw new Error('Varyntiq decision expired before signing');
       }
