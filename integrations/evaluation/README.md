@@ -32,8 +32,9 @@ Successful output contains only the client ID, decisions, reason codes and compl
 
 ```sh
 node demo-conformance.mjs
-node --test evaluate-live.test.mjs
+node --test evaluate-varyntiq.test.mjs
 node --test demo-conformance.test.mjs
 ```
 
 The mock tests verify the successful path, refusal of an unsafe `ALLOW`, receipt binding, credential redaction and tamper rejection. The conformance proof is local only; it does not claim that a production service has been externally adopted.
+
