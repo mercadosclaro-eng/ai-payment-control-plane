@@ -34,14 +34,14 @@
   <main id="top">
     <section class="hero shell">
       <div class="hero-copy">
-        <div class="eyebrow"><span class="pulse"></span> Live API · MCP Registry · x402-ready</div>
+        <div class="eyebrow"><span class="pulse"></span> Evaluation kit · MCP-ready · x402-ready</div>
         <h1>Let AI agents spend.<br><em>Keep authority.</em></h1>
         <p class="lead">An independent control plane that evaluates every payment intent before anything is signed. Deterministic policy, risk scoring and auditable decisions—with no custody of funds or keys.</p>
         <div class="actions">
           <a class="button primary" href="integration.html">Read the integration guide <span>↗</span></a>
           <a class="button secondary" href="#demo">Run the decision demo</a>
         </div>
-        <p class="working-name"><strong>Varyntiq</strong> is the public AI payment control plane. The existing hosted endpoint is retained only as a compatibility bridge while the canonical Varyntiq endpoint is prepared.</p>
+        <p class="working-name"><strong>Varyntiq</strong> is the public AI payment control plane. This site publishes the decision contract and evaluation kit; an environment-specific HTTPS endpoint is supplied during a controlled pilot and is never guessed from this page.</p>
       </div>
       <div class="decision-card" aria-label="Example payment decision">
         <div class="terminal-bar"><span></span><span></span><span></span><b>POST /check</b></div>
@@ -127,6 +127,7 @@
         <div><b>Budgets &amp; limits</b><span>Per transaction, day and month</span></div>
         <div><b>Duplicate protection</b><span>Intent replay and changed-data detection</span></div>
         <div><b>Payee controls</b><span>Allowlist, blocklist and new-provider review</span></div>
+        <div><b>Trust provenance</b><span>Optional application-assigned trust class</span></div>
         <div><b>Price anomalies</b><span>Historical range and trusted-quote checks</span></div>
         <div><b>Velocity controls</b><span>Frequency and burst detection</span></div>
         <div><b>Prompt-to-payment defense</b><span>Signals for injected or redirected intent</span></div>
@@ -140,12 +141,12 @@
           <h2>A working service, not a concept deck.</h2>
         </div>
         <div class="metrics">
-          <a href="https://github.com/mercadosclaro-eng/payguard/actions/runs/35972529824"><strong>13</strong><span>automated tests passing</span><small>View external verification ↗</small></a>
-          <a href="https://payguard-production-abfe.up.railway.app/health"><strong>Live</strong><span>Varyntiq HTTPS service</span><small>Check current deployment health ↗</small></a>
-          <a href="https://registry.modelcontextprotocol.io/?q=payguard"><strong>MCP</strong><span>Compatibility registry record</span><small>Open the current technical record ↗</small></a>
+          <a href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/actions"><strong>CI</strong><span>Automated verification</span><small>Review the public workflow evidence ↗</small></a>
+          <a href="integration.html#evaluate"><strong>Proof</strong><span>Independent evaluation kit</span><small>Run the no-funds conformance checks ↗</small></a>
+          <a href="https://github.com/mercadosclaro-eng/ai-payment-control-plane/tree/main/integrations"><strong>MCP</strong><span>Pre-sign adapter surface</span><small>Review the technical integrations ↗</small></a>
           <div><strong>0</strong><span>funds or private keys held</span><small>Authorization only</small></div>
         </div>
-        <p class="evidence-note">External verification covers service health, split tenant credentials, a bound BLOCK receipt, MCP access and immediate agent-token rotation. Customer adoption is not claimed.</p>
+        <p class="evidence-note">Published evidence separates local conformance from deployment and customer claims. No customer adoption, endorsement or guaranteed fraud prevention is claimed.</p>
         <div class="actions"><a class="button secondary" href="https://github.com/onchainexpat/x402-wallet-mcp/pull/5">Review the wallet integration PR <span>↗</span></a><a class="button secondary" href="https://github.com/cloudflare/agents/issues/2359">Review the Cloudflare interface proposal <span>↗</span></a><a class="button secondary" href="https://github.com/x402-foundation/x402/issues/2533#issuecomment-5812636724">Review the x402 lifecycle contribution <span>↗</span></a></div>
       </div>
     </section>
@@ -186,9 +187,10 @@ wallet.sign(payment_intent, decision.receipt)</code></pre></div>
 
   <footer class="shell">
     <div><strong>Varyntiq</strong><p>AI payment control infrastructure for autonomous commerce.</p></div>
-    <div class="footer-links"><a href="integration.html">Integration</a><a href="https://payguard-production-abfe.up.railway.app/openapi.json">Varyntiq API</a><a href="https://registry.modelcontextprotocol.io/?q=payguard">Compatibility registry record</a><a href="llms.txt">LLM summary</a></div>
+    <div class="footer-links"><a href="integration.html">Integration</a><a href="integration.json">Decision profile</a><a href="PUBLIC_SECURITY_MATRIX.md">Security matrix</a><a href="llms.txt">LLM summary</a></div>
     <p class="legal">Varyntiq evaluates payment intent; it does not custody, sign, transmit or settle funds. No claim of guaranteed fraud prevention or regulatory certification.</p>
   </footer>
   <script src="app.js"></script>
 </body>
 </html>
+
