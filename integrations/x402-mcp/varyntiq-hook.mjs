@@ -6,7 +6,7 @@
  * Varyntiq. It never receives a wallet key or signs a payment.
  */
 
-const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL ?? "https://payguard-production-abfe.up.railway.app";
+const DEFAULT_BASE_URL = process.env.VARYNTIQ_BASE_URL;
 
 function requireText(value, name) {
   if (typeof value !== "string" || !value.trim()) {
@@ -136,4 +136,5 @@ export function createVaryntiqPaymentHook(options) {
     }
   };
 }
+
 
