@@ -1,0 +1,74 @@
+{
+  "manifest_version": "varyntiq-ardaro-review-v1",
+  "status": "documentation_only",
+  "product": "Varyntiq",
+  "integration": "Ardaro x402 utilities",
+  "reviewed_source": {
+    "repository": "https://github.com/mercadosclaro-eng/ai-payment-control-plane",
+    "branch": "publish-inflow",
+    "commit": "83286d26b7dd0c045ff1a24b1cbf1deffd06200a",
+    "ci_run": "https://github.com/mercadosclaro-eng/ai-payment-control-plane/actions/runs/36637190961",
+    "runtime": "Node 24.14.0",
+    "network": "disabled",
+    "dependency_provenance": "Node built-in test runner; repository lockfiles; no third-party runtime dependency required",
+    "container_image_digest": null
+  },
+  "purpose": "Evaluate one synthetic x402 intent before the host signer; Varyntiq is advisory and non-custodial.",
+  "request_schema": {
+    "required": ["intent_id", "amount", "currency", "payee", "resource_url", "network", "asset", "nonce", "limits"],
+    "freshness": ["nonce", "receipt_expiry"]
+  },
+  "response_schema": {
+    "required": ["decision", "receipt_id", "expires_at", "intent_digest", "reason_codes"],
+    "decisions": ["ALLOW", "BLOCK", "REQUIRE_APPROVAL"],
+    "advisory_only": true,
+    "initiates_signing_or_payment": false
+  },
+  "synthetic_fixtures": [
+    "equal_limit_allow",
+    "above_limit_block",
+    "payee_resource_network_mismatch",
+    "nonce_replay_block",
+    "missing_or_expired_receipt_block",
+    "changed_terms_block",
+    "malformed_response_block",
+    "transport_failure_block",
+    "response_body_timeout_block",
+    "observer_deadline_block",
+    "mutation_isolation"
+  ],
+  "proposed_limits": {
+    "duration": "24h_or_100_intents",
+    "concurrency": 1,
+    "spend_per_action": 0,
+    "spend_hourly": 0,
+    "spend_daily": 0,
+    "spend_total": 0,
+    "production_traffic": false
+  },
+  "ardaro_decisions_tbd": [
+    "operator",
+    "backup_operator",
+    "isolated_environment",
+    "allowlisted_endpoint_and_network",
+    "storage_logging_retention_and_deletion",
+    "incident_contact_and_response_time",
+    "approval_owner",
+    "service_fee_treatment"
+  ],
+  "approval_matrix": {
+    "documentation_review": "requested",
+    "staging_provisioning": "not_approved",
+    "credential_issuance": "not_approved",
+    "synthetic_execution": "not_approved",
+    "signing_payment_production_access": "not_requested_and_requires_explicit_approval",
+    "closeout": "ardaro_tbd"
+  },
+  "closeout_evidence": [
+    "redacted_configuration",
+    "event_jsonl",
+    "aggregate_pass_fail_results",
+    "stop_and_cleanup_evidence",
+    "operator_signoff"
+  ]
+}
