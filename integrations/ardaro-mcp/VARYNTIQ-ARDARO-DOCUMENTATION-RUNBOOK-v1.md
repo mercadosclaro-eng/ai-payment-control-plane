@@ -1,62 +1,21 @@
-# Varyntiq x Ardaro — documentation review runbook v1
+# Varyntiq x Ardaro - documentation review v1
 
-**Status:** documentation-only proposal. This document does not approve staging, credentials, signing, payment, production access or live execution.
+Status: documentation-only proposal. No staging, credentials, signing, payment, production access or live execution is approved.
 
-## Purpose and evidence
+## Scope and source
+Varyntiq returns an advisory pre-sign decision for one synthetic x402 intent. The host owns wallet and signer; Varyntiq never receives keys or settles funds. Reviewed source commit: 83286d26b7dd0c045ff1a24b1cbf1deffd06200a (publish-inflow).
 
-The bounded behavior is Varyntiq's advisory pre-sign decision for one synthetic x402 payment intent. Ardaro remains the owner of the wallet and signer. Varyntiq never receives keys, creates a payment credential or settles funds.
+## Contract separation
+Varyntiq canonical intent is produced by mapArdaroRequestToIntent and includes intent_id, schema_version, agent_id, rail, amount_minor, amount_scale, currency, proposed_cost, payee, endpoint, policy, analysis_fee, x402 and context. The adapter checks receipt intent_id, decision=ALLOW and unexpired expires_at. It does not claim to validate intent_digest or reason_codes.
 
-Pass/fail criteria:
+Ardaro advisory request: proposal.amountMinor, proposal.amountDecimals, proposal.currency; policy.currency, policy.max_per_transaction, policy.max_per_hour, policy.max_checks_per_minute; history.currency, history.committed_last_hour, history.pending_reserved, history.checks_last_minute.
+Ardaro advisory response: contract_version=ardaro.agent-utilities.response.v1, service_id=ardaro.authorize_agent_spend, status=review_required, result.tool=authorize_agent_spend, result.authorization_status, with advisory, human review, payment, reservation and credential issuance explicit. It never authorizes signing or payment.
 
-- unchanged, fresh intent can produce ALLOW for the mock signer;
-- changed amount, payee, resource, network or nonce reuse produces BLOCK;
-- REQUIRE_APPROVAL, missing or expired receipts, malformed responses, policy failure and timeout fail closed;
-- signer and payment counters remain zero for every unsafe case.
+## Evidence
+Command: node --test integrations/ardaro-mcp/varyntiq-ardaro.test.mjs integrations/ardaro-mcp/ardaro-mapping.fixture.test.mjs integrations/ardaro-mcp/ardaro-advisory.test.mjs
+Result: 20 tests, 20 passed, 0 failed, 0 cancelled, 0 skipped, 0 todo. Node 24.14.0; network disabled; no third-party runtime dependency; unsafe cases keep signer/payment counters at zero.
 
-Reviewed source commit: 83286d26b7dd0c045ff1a24b1cbf1deffd06200a0.
+## Controls and limits
+Implemented: input/URL/currency/amount/context validation, canonical mapping, receipt binding, ALLOW, expiry/deadline recheck, replay/changed-term mismatch handling, timeout and callback isolation; fixture fails closed before sign. Mocked: policy endpoint and signer callbacks. Prohibited/mock: settlement and fee payment; exercise fee is 0 USDC. Proposed host controls only: 24 hours or 100 intents, concurrency one, zero spend, allowlist, retention and kill switch. The fixture does not enforce cross-run quota/concurrency.
 
-- CI evidence: https://github.com/mercadosclaro-eng/ai-payment-control-plane/actions/runs/36637190961
-- Runtime: Node 24.14.0, network disabled.
-- Dependency provenance: Node built-in test runner and repository lockfiles; no third-party runtime dependency is required.
-- Container image: none proposed. If Ardaro later requires one, Ardaro must pin and approve its immutable digest.
-
-## Proposed schema and synthetic fixtures
-
-The request contains intent_id, amount and currency, payee, resource URL, network, asset, a fresh nonce and operator-supplied limits. The response contains decision, receipt_id, expires_at, the bound intent digest and reason codes. An advisory response never authorizes signing or payment.
-
-The public fixture at integrations/ardaro-mcp/varyntiq-ardaro.test.mjs covers equal-limit allow, above-limit block, payee/resource/network mismatch, nonce replay, missing or expired expiry, changed terms, malformed output, transport failure, response-body timeout, observer deadline and mutation isolation. varyntiq-ardaro-demo.mjs reports fundsMoved: false.
-
-## Environment and people
-
-Varyntiq specifies the synthetic data boundary, request/response schema, fail-closed behavior, receipt binding and test evidence above.
-
-Ardaro decisions — TBD: named operator, backup operator, staging environment, allowlisted endpoint, storage/logging location, retention and deletion owner, incident contact and final approval owner.
-
-The proposed environment is Ardaro-controlled and isolated, with no production credentials, wallet keys, unrestricted signer or customer data. Permitted network destinations and data classes remain TBD until Ardaro assigns an owner.
-
-## State, authorization and limits
-
-Ardaro owns policy history, pending reservations, replay/idempotency state, reconciliation, credential scope and revocation. Varyntiq returns an advisory decision and receipt only. A live signer or payment path is never invoked by the advisory response itself.
-
-Proposed synthetic limits: 24 hours or 100 intents, whichever comes first; concurrency one; zero spend per action, hour, day and total; no production currency, asset, payee or settlement. Endpoint, network allowlist and any service-fee treatment are TBD and require Ardaro's written decision.
-
-## Audit, shutdown and closeout
-
-Record decision ID, exact intent digest, policy result, receipt status, timestamps, failure reason, test case and signer/payment counters. Propose 30-day staging retention only if Ardaro approves it.
-
-Stop automatically on an unexpected signer/payment call, receipt mismatch, replay acceptance, data-boundary violation or limit breach. Ardaro must have an independent manual kill switch, credential revocation and rollback. Closeout is the pinned manifest, redacted configuration, event JSONL, aggregate pass/fail results, stop/cleanup evidence and operator sign-off.
-
-
-## Approval matrix
-
-| Action | Current status |
-| --- | --- |
-| Documentation review | Requested now |
-| Name operator, backup and owners | Ardaro TBD |
-| Provision isolated staging | Not approved |
-| Issue credentials | Not approved |
-| Execute synthetic window | Not approved |
-| Signing, payment or production access | Not requested; requires Brent's explicit approval |
-| Closeout and retention | Ardaro TBD |
-
-Submission starts technical review only. It grants no access, credentials, provisioning, live execution, signing or payment authority.
+Ardaro must decide operator, backup, staging, endpoint, logging, retention, incident and final approval owners. No credentials, production data, signing or payment are requested. Documentation review is the only current gate.
