@@ -2,8 +2,8 @@
  * Adapter for placing Varyntiq immediately before AgentKit's native action.
  *
  * The native action is injected so this module stays independent of an
- * AgentKit checkout. In AgentKit's provider harness, `nativeAction` should be
- * the call to `simulateAndGuardTransaction(wallet, args)`. Varyntiq receives
+ * AgentKit checkout. In AgentKit's provider harness, `nativeAction` should
+ * be the call to `simulateAndGuardTransaction(wallet, args)`. Varyntiq receives
  * the exact x402 challenge that led to that call and is the only code allowed
  * to invoke the action after an ALLOW decision.
  */
@@ -30,7 +30,11 @@ export function createVaryntiqAgentKitNativeBridge({ guard, nativeAction }) {
       selectedRequirements,
       resource,
       context: { ...context, integration: "agentkit-native" },
-      sign: (signedInput) => nativeAction({ wallet, args, ...signedInput }),
+      // AgentKit's native provider owns the payment envelope and signs inside
+      // simulateAndGuardTransaction. Do not spread Varyntiq's signed result
+      // into the strict provider action schema; it contains guard fields that
+      // AgentKit intentionally rejects as unrecognised keys.
+      sign: () => nativeAction({ wallet, args }),
     });
   };
 }
