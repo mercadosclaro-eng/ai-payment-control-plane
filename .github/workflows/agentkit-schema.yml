@@ -1,0 +1,29 @@
+name: AgentKit schema conformance
+on:
+  push:
+    paths: ["integrations/agentkit/**", "integrations/pre-payment-guard/**", ".github/workflows/agentkit-schema.yml"]
+  pull_request:
+    paths: ["integrations/agentkit/**", "integrations/pre-payment-guard/**", ".github/workflows/agentkit-schema.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Prepare pinned upstream schema and test-only dependency
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/varyntiq-schema"
+          curl --fail --silent --show-error --location --max-time 60 \
+            https://raw.githubusercontent.com/baianomarceloeduardo-jpg/agentkit/29ab0dcaa8d642126695c1330025afc2fa3bd80c/typescript/agentkit/src/action-providers/automatonFirewall/schemas.ts \
+            -o "$RUNNER_TEMP/varyntiq-schema/schemas.mjs"
+          npm install --prefix "$RUNNER_TEMP/varyntiq-schema" --ignore-scripts --no-audit --no-fund --package-lock=false zod@4.4.3
+          echo "AGENTKIT_SCHEMA_PATH=$RUNNER_TEMP/varyntiq-schema/schemas.mjs" >> "$GITHUB_ENV"
+      - name: Test exact schema and pre-invocation control without funds
+        run: node --test integrations/agentkit/varyntiq-agentkit-native-bridge.test.mjs integrations/agentkit/varyntiq-agentkit-schema.test.mjs
