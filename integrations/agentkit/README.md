@@ -52,3 +52,39 @@ node --test integrations/agentkit/varyntiq-agentkit-native-bridge.test.mjs
 These tests use no wallet keys, credentials, signatures, settlement, production
 customer data, or production funds. Running inside AgentKit's repository still
 requires the AgentKit checkout and its Jest toolchain.
+
+## Exact upstream schema conformance
+
+The separate `varyntiq-agentkit-schema.test.mjs` suite imports the actual
+Automaton provider schema from commit
+`29ab0dcaa8d642126695c1330025afc2fa3bd80c` of
+`baianomarceloeduardo-jpg/agentkit`, path
+`typescript/agentkit/src/action-providers/automatonFirewall/schemas.ts`.
+It verifies the original Git blob SHA
+`566ddacb9edb350b51353e74e4d16e0271f2b95d` before importing the file.
+The source is downloaded unchanged as `schemas.mjs` (it contains ordinary JavaScript).
+No reconstructed local validator is substituted.
+
+The dedicated **AgentKit schema conformance** workflow downloads the pinned
+schema and installs test-only `zod@4.4.3`, compatible with the provider's
+declared `^4.3.6` range. Setup requires network access; the test cases do not
+make network requests, sign transactions, or use funds.
+
+To reproduce with Node 24: download that exact source into an isolated directory,
+install `zod@4.4.3` in that directory with lifecycle scripts disabled, then set
+`AGENTKIT_SCHEMA_PATH` to the absolute path of `schemas.mjs` and run:
+
+```sh
+node --test integrations/agentkit/varyntiq-agentkit-native-bridge.test.mjs integrations/agentkit/varyntiq-agentkit-schema.test.mjs
+```
+
+All five keys (`targetContract`, `calldata`, `fromAddress`, `valueWei`,
+`tokenAddress`) must be present. Nullable values are explicit, and parsing
+applies the upstream defaults before invocation. The tests cover missing keys,
+unexpected payment fields, an incorrectly wrapped payload, invalid address,
+and policy BLOCK / REQUIRE_APPROVAL with zero native calls.
+
+Validation is a caller responsibility in this harness, before invoking the
+bridge. The bridge does not silently acquire provider schema validation.
+The native action and wallet remain test doubles: these are schema conformance
+and boundary tests, not an end-to-end provider run, external adoption or payment evidence.
