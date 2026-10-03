@@ -16,7 +16,7 @@ const selected = {
   extra: { name: "USD Coin", version: "2" },
 };
 const paymentRequired = { x402Version: 2, resource: endpoint, accepts: [selected] };
-const args = { targetContract: "0x0000000000000000000000000000000000000001", calldata: "0x" };
+const args = { targetContract: "0x0000000000000000000000000000000000000001", calldata: "0x", fromAddress: null, valueWei: "0", tokenAddress: null };
 
 function makeGuard() {
   return createVaryntiqPrePaymentGuard({
