@@ -1,0 +1,24 @@
+name: AgentKit schema conformance
+on:
+  push:
+    paths: ["integrations/agentkit/**", "integrations/pre-payment-guard/**", ".github/workflows/agentkit-schema.yml"]
+  pull_request:
+    paths: ["integrations/agentkit/**", "integrations/pre-payment-guard/**", ".github/workflows/agentkit-schema.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify pinned downloads and test in a fresh isolated directory
+        run: python integrations/agentkit/run-pinned-conformance.py
+
