@@ -70,13 +70,17 @@ schema and installs test-only `zod@4.4.3`, compatible with the provider's
 declared `^4.3.6` range. Setup requires network access; the test cases do not
 make network requests, sign transactions, or use funds.
 
-To reproduce with Node 24: download that exact source into an isolated directory,
-install `zod@4.4.3` in that directory with lifecycle scripts disabled, then set
-`AGENTKIT_SCHEMA_PATH` to the absolute path of `schemas.mjs` and run:
+To reproduce with Node 24+ and Python 3.12+, from the repository root run:
 
 ```sh
-node --test integrations/agentkit/varyntiq-agentkit-native-bridge.test.mjs integrations/agentkit/varyntiq-agentkit-schema.test.mjs
+python integrations/agentkit/run-pinned-conformance.py
 ```
+
+The runner creates a fresh temporary package directory, downloads the exact
+schema and Zod 4.4.3 archive, and verifies their Git blob and SHA-512 pins before
+importing or extracting them. It does not run npm, inherit a parent npm project,
+or execute package lifecycle scripts. The temporary directory is removed after
+the test process exits. Setup needs network access; tests use test doubles.
 
 All five keys (`targetContract`, `calldata`, `fromAddress`, `valueWei`,
 `tokenAddress`) must be present. Nullable values are explicit, and parsing
@@ -88,3 +92,7 @@ Validation is a caller responsibility in this harness, before invoking the
 bridge. The bridge does not silently acquire provider schema validation.
 The native action and wallet remain test doubles: these are schema conformance
 and boundary tests, not an end-to-end provider run, external adoption or payment evidence.
+
+The schema pin proves conformance to exact source bytes, not compatibility with
+future schema changes. Any byte change deliberately fails the pin check.
+
